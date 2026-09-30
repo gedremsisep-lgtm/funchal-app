@@ -1,0 +1,2778 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#111111">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Funchal">
+<title>Funchal · Campo</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.11.0/dist/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#F4F5F7;--bg2:#FFFFFF;--bg3:#EBEDF1;
+  --border:#DCE0E7;--border2:#C6CBD6;
+  --text:#171A20;--text2:#5A6070;--text3:#8E96A8;
+  --blue:#185FA5;--blue-bg:#E6F1FB;
+  --green:#2D7A3A;--green-bg:#E7F3E4;
+  --amber:#8A5A00;--amber-bg:#FEF2DE;
+  --red:#A32D2D;--red-bg:#FBE9E9;
+  --gold:#E9A700;--dark:#1C1F26;
+  --r:12px;--r2:8px;
+  --font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,system-ui,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{overscroll-behavior-y:none}
+body{font-family:var(--font);background:var(--bg);color:var(--text);font-size:15px;line-height:1.45;padding-bottom:calc(70px + var(--safe-b))}
+button,input,select,textarea{font-family:inherit;font-size:16px;color:var(--text)}
+
+.top{position:sticky;top:0;z-index:40;background:var(--dark);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px;padding-top:calc(12px + env(safe-area-inset-top,0px))}
+.top .ti-menu-2{font-size:22px}
+.top b{font-size:15px;letter-spacing:.3px;flex:1}
+.top .who{font-size:11px;color:#B7BDC7;text-align:right;line-height:1.25}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:4px 9px;border-radius:12px;font-size:11px;font-weight:700}
+.chip.off{background:rgba(255,255,255,.10);color:#B7BDC7}
+.chip.ok{background:rgba(45,122,58,.30);color:#9BE0A6}
+.chip.pend{background:rgba(233,167,0,.28);color:#FFD874}
+.chip.busy{background:rgba(24,95,165,.36);color:#A9D2F7}
+
+.wrap{padding:14px}
+.tela{display:none}.tela.on{display:block}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:12px}
+.sh{font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.sh i{font-size:16px}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:11.5px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px 12px;border:1.5px solid var(--border2);border-radius:var(--r2);background:#fff;outline:none}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--blue)}
+.fg textarea{min-height:70px;resize:vertical}
+.fg .hint{font-size:11.5px;color:var(--text3);margin-top:4px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:13px 16px;border:1.5px solid var(--border2);border-radius:var(--r2);background:#fff;font-weight:700;font-size:15px;cursor:pointer;width:100%}
+.btn i{font-size:19px}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn.g{background:var(--green);border-color:var(--green);color:#fff}
+.btn.o{background:var(--gold);border-color:var(--gold);color:#3D2D00}
+.btn.d{background:var(--red);border-color:var(--red);color:#fff}
+.btn.sm{padding:9px 12px;font-size:13.5px;width:auto}
+.btn:disabled{opacity:.5}
+.brow{display:flex;gap:9px;margin-top:6px}
+
+.fotos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.slot{position:relative;aspect-ratio:3/4;border:2px dashed var(--border2);border-radius:var(--r2);background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.slot i{font-size:32px;color:var(--text3)}
+.slot span{font-size:12px;font-weight:700;color:var(--text3);margin-top:5px}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot .tag{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.62);color:#fff;font-size:11px;font-weight:700;text-align:center;padding:3px}
+.slot .del{position:absolute;top:6px;right:6px;background:rgba(163,45,45,.94);color:#fff;border:none;border-radius:6px;width:32px;height:32px;display:flex;align-items:center;justify-content:center}
+.slot input[type=file]{display:none}
+
+.al{display:none;gap:8px;padding:11px 13px;border-radius:var(--r2);font-size:13.5px;margin-top:10px;line-height:1.45}
+.al.show{display:flex}
+.al i{font-size:18px;flex-shrink:0}
+.ai{background:var(--blue-bg);color:var(--blue)}
+.ag{background:var(--green-bg);color:var(--green)}
+.ae{background:var(--red-bg);color:var(--red)}
+.aw{background:var(--amber-bg);color:var(--amber)}
+
+.st{display:inline-block;padding:3px 10px;border-radius:11px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.4px}
+.s-ok{background:var(--green-bg);color:var(--green)}
+.s-wn{background:var(--amber-bg);color:var(--amber)}
+.s-rd{background:var(--red-bg);color:var(--red)}
+
+.item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.item.dev{border-color:var(--red);border-width:1.5px}
+.item .ih{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.item .ih b{font-size:15px;flex:1}
+.item .ib{padding:10px 12px;font-size:13.5px}
+.item .ln{display:flex;gap:8px;margin-bottom:3px}
+.item .ln span{color:var(--text3);min-width:64px;font-size:12px}
+.item .th{display:grid;grid-template-columns:1fr 1fr;gap:2px}
+.item .th img{width:100%;height:96px;object-fit:cover;display:block}
+.item .th .vz{height:96px;background:var(--bg3);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:11px}
+
+.kg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.kc{background:var(--bg2);border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:var(--r);padding:11px 13px}
+.kc .kl{font-size:11px;color:var(--text2);text-transform:uppercase;font-weight:700;letter-spacing:.4px}
+.kc .kv{font-size:24px;font-weight:800;color:var(--blue);line-height:1.15}
+.kc.gn{border-left-color:var(--green)}.kc.gn .kv{color:var(--green)}
+.kc.am{border-left-color:var(--gold)}.kc.am .kv{color:var(--amber)}
+.kc.rd{border-left-color:var(--red)}.kc.rd .kv{color:var(--red)}
+
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);z-index:50;padding-bottom:var(--safe-b)}
+.acard{display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:var(--bg2);
+  border:1px solid var(--border);border-radius:var(--r);padding:15px 14px;margin-bottom:11px;cursor:pointer}
+.acard:active{transform:scale(.99)}
+.acard .ai{width:46px;height:46px;flex:0 0 46px;border-radius:13px;display:flex;align-items:center;
+  justify-content:center;font-size:24px}
+.acard .at{font-size:16px;font-weight:800;line-height:1.2}
+.acard .as{font-size:12.5px;color:var(--text2);margin-top:3px;line-height:1.35}
+.acard .ac{margin-left:auto;color:var(--text3);font-size:20px}
+.acard.p{border-color:var(--blue);border-width:1.5px}
+.acard.p .ai{background:var(--blue);color:#fff}
+.acard.o .ai{background:var(--amber-bg);color:var(--amber)}
+.acard.g .ai{background:var(--green-bg);color:var(--green)}
+.acard.n .ai{background:var(--bg3);color:var(--text2)}
+.saudacao{font-size:19px;font-weight:800;margin:4px 0 2px}
+.saudacao+.sub{font-size:13px;color:var(--text2);margin-bottom:14px}
+.nav div{padding:9px 4px 8px;text-align:center;color:var(--text3);font-size:11px;font-weight:700;position:relative}
+.nav div i{display:block;font-size:23px;margin-bottom:1px}
+.nav div.on{color:var(--blue)}
+.nav .bdg{position:absolute;top:4px;right:calc(50% - 24px);background:var(--red);color:#fff;font-size:10px;font-weight:800;min-width:18px;padding:1px 5px;border-radius:9px}
+.empty{text-align:center;color:var(--text3);padding:40px 16px;font-size:14px}
+.empty i{display:block;font-size:40px;margin-bottom:10px;opacity:.5}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.lg-marca{display:flex;align-items:center;gap:12px;background:var(--dark);border-radius:var(--r);padding:16px 18px;margin:6px 0 14px}
+.lg-marca img{height:44px;object-fit:contain;background:#fff;border-radius:6px;padding:4px}
+.lg-marca b{display:block;color:#fff;font-size:17px;letter-spacing:.6px}
+.lg-marca span{display:block;color:#AEB5C0;font-size:11.5px}
+.fcard-furo{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.fcard-furo.ok{border-color:var(--green)}
+.fcard-furo .fh{display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.fcard-furo .fh b{font-size:15px;flex:1}
+.fcard-furo .fb{padding:11px 12px}
+/* As tres medidas do buraco, embaixo das fotos: e o que vira metro quadrado
+   no escritorio. Campo grande e teclado numerico — quem digita esta na rua. */
+.medrow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:11px}
+.medrow label{display:block;font-size:11px;font-weight:700;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.medrow input{width:100%;padding:11px 8px;border:1.5px solid var(--border2);border-radius:var(--r2);
+  background:#fff;outline:none;text-align:center;font-weight:700}
+.medrow input:focus{border-color:var(--blue)}
+.medres{margin-top:9px;background:var(--blue-bg);color:var(--blue);border-radius:var(--r2);
+  padding:8px 11px;font-size:12.5px;font-weight:600}
+.medres.vazio{background:var(--bg3);color:var(--text3);font-weight:500}
+/* O quadro do + : mesma casinha das fotos, só que convidando a somar mais uma. */
+.slotp.mais{border-style:dashed;border-color:var(--blue);background:var(--blue-bg)}
+.slotp.mais i{font-size:30px;color:var(--blue)}
+.slotp.mais .rot{color:var(--blue)}
+.eqprow{margin-top:11px}
+.eqprow label{display:block;font-size:11px;font-weight:700;color:var(--text2);
+  text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px}
+.eqprow select{width:100%;padding:11px 10px;border:1.5px solid var(--border2);border-radius:var(--r2);background:#fff;outline:none}
+.slotp{position:relative;aspect-ratio:4/3;max-height:230px;border:2px dashed var(--border2);border-radius:var(--r2);background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.slotp.cheio{border-style:solid;border-color:var(--green)}
+.slotp i{font-size:26px;color:var(--text3)}
+.slotp .rot{font-size:11px;font-weight:800;color:var(--text3);margin-top:4px;text-align:center;line-height:1.2;padding:0 4px}
+.slotp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slotp .tag{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.66);color:#fff;font-size:10px;font-weight:700;text-align:center;padding:2px}
+.slotp .gps{position:absolute;top:5px;left:5px;background:rgba(0,0,0,.6);color:#fff;font-size:9px;font-weight:700;padding:2px 5px;border-radius:8px}
+.slotp .gps.no{background:rgba(163,45,45,.85)}
+.slotp .del{position:absolute;top:5px;right:5px;background:rgba(163,45,45,.92);color:#fff;border:none;border-radius:6px;width:28px;height:28px;display:flex;align-items:center;justify-content:center}
+.relbar{display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:var(--r);margin-top:4px;
+  font-size:13px;line-height:1.4;background:#EEF3FB;border:1.5px solid #C7D8F0;color:#20344F;flex-wrap:wrap}
+.relbar.fim{background:#EAF7EE;border-color:#BFE3CB;color:#1D4A2C}
+.relbar i{font-size:18px}
+.relbar .st{margin-left:4px}
+.gpsbar{display:flex;align-items:flex-start;gap:9px;padding:11px 13px;border-radius:var(--r);margin-bottom:12px;font-size:13px;line-height:1.4;border:1.5px solid}
+.gpsbar i{font-size:19px;flex-shrink:0;margin-top:1px}
+.gpsbar b{display:block}
+.gpsbar.ok{background:var(--green-bg);border-color:#9ecf9b;color:var(--green)}
+.gpsbar.esperando{background:var(--blue-bg);border-color:#a9d0f0;color:var(--blue)}
+.gpsbar.ruim{background:var(--red-bg);border-color:#e8b6b6;color:var(--red)}
+.gpsbar .acao{margin-top:7px;display:inline-block;background:#fff;border:1.5px solid currentColor;border-radius:var(--r2);padding:7px 12px;font-weight:800;font-size:12.5px}
+.barra{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden;margin-top:7px}
+.barra div{height:100%;background:var(--green);width:0}
+.olho{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--text3);padding:6px;display:flex}
+.olho i{font-size:20px}
+.ov{position:fixed;inset:0;background:rgba(15,18,24,.72);z-index:90;display:none;align-items:flex-end}
+.ov .sheet{background:#fff;width:100%;border-radius:16px 16px 0 0;padding:18px 16px calc(18px + var(--safe-b));max-height:86vh;overflow-y:auto}
+
+/* ===== TEMA FUNCHAL — linha amarela (inspirado na paleta Caterpillar) ===== */
+:root{
+  --cat:#FFCD11;--cat2:#E5B800;--cat-bg:#FFF4C2;--cat-txt:#6B5200;
+  --dark:#111111;
+  --blue:#1A1A1A;--blue-bg:#FFF4C2;
+  --gold:#FFCD11;--amber:#6B5200;--amber-bg:#FFF4C2;
+  --bg:#F3F3F1;--bg3:#ECECE8;--border:#D9D9D4;--border2:#BFBFB8;
+}
+.top{background:var(--dark);border-bottom:4px solid var(--cat)}
+.top b{color:var(--cat);letter-spacing:.8px;text-transform:uppercase}
+.top .who{color:#D6D6D6}
+.chip.pend{background:rgba(255,205,17,.28);color:var(--cat)}
+.chip.busy{background:rgba(255,255,255,.18);color:#FFF}
+.sh{color:#111;border-bottom:2px solid var(--cat);padding-bottom:4px}
+.fg input:focus,.fg select:focus,.fg textarea:focus,.medrow input:focus{border-color:var(--cat2);box-shadow:0 0 0 3px rgba(255,205,17,.35)}
+.btn.p{background:var(--cat);border-color:var(--cat2);color:#111;font-weight:800}
+.btn.o{background:#111;border-color:#111;color:var(--cat)}
+.ai{background:var(--cat-bg);color:var(--cat-txt)}
+.acard.p{border-color:var(--cat)}
+.acard.p .ai{background:var(--cat);color:#111}
+.kc{border-left:4px solid var(--cat)}
+.kc .kv{color:#111}
+.kc.am{border-left-color:#111}.kc.am .kv{color:var(--cat-txt)}
+.nav{background:#111;border-top:3px solid var(--cat)}
+.nav div{color:#9A9A9A}
+.nav div.on{color:var(--cat)}
+.nav .bdg{background:var(--cat);color:#111}
+.lg-marca{background:var(--dark);border-bottom:4px solid var(--cat)}
+.lg-marca b{color:var(--cat)}
+.medres{background:var(--cat-bg);color:var(--cat-txt)}
+.slotp.mais{border-color:var(--cat2);background:var(--cat-bg)}
+.slotp.mais i,.slotp.mais .rot{color:var(--cat-txt)}
+.gpsbar.esperando{background:var(--cat-bg);border-color:var(--cat);color:var(--cat-txt)}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <i class="ti ti-building-broadcast-tower"></i>
+  <b>FUNCHAL · Campo</b>
+  <div class="chip off" id="chip" onclick="ir('enviar')"><i class="ti ti-cloud-off"></i>Offline</div>
+  <div class="who" id="who"></div>
+</div>
+
+<div class="wrap">
+
+<!-- ================= LOGIN ================= -->
+<div class="tela" id="t-login">
+  <div class="lg-marca">
+    <img src="data:image/png;base64,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tdd46KGH+OSTT9hnn3245557BpS5f3+fBHbbbTduvvlmcrkcxx9/PE8++SQ/+clPaGxs7PUclYzTzz//vGRfdnV1scsuu3DqqacyZcoUxowZQygUYt26dbz11lvcfffdLFu2jIaGBrq6umru9yFlEcRiMYLBINlslkwmQyQSYdSoUUycOJEDDzyQE088kY6ODgDC4TDNzc24rks2my1pbhqGQSwWo7m5mUgkMiAhHXPMMey5554kEgmCwSCzZs3illtu4d133+03g/mWg5SSVCrV616pVIo5c+Zwww03sP322+O6Lu3t7RiGwYQJE5g2bRpf/epXOeuss/jkk0/ypnatMvBnt+7ubmbNmsXvfvc7tt9+exzHYcOGDUSjUcaOHcuMGTPy7X700UdFSbFYf/T09BS9ptL2fvSjH7F06dJ+rlk1MhzoXSKRCF1dXUyaNImbbrqJL33pS5imSUdHB6lUitbWVsaNG8cJJ5zAJ598wvLlywkEAhXJ3A8I+vGeo48+mr333ptkMolpmsycOZMxY8bw2WefEQwGe1kE5capTwzF+jKZTHLIIYdw8803M27cOAzDYOPGjWQyGXbffXcOP/xwstksF110Ea7r1qXfh0SMoKenh6amJp5++mnOP/98RowYwdVXX81hhx3GmDFjmDx5MgsWLMj7O7ZtY9s25513Hq+99hqRSAQpJa7rkkql8gPMv66cb+o4Do2NjcyaNStvFobDYbbbbjtmzJjBBx98wEMPPcT8+fPzM8Mdd9zB1KlTWbduHSeccAJtbW2EQiG6u7sZN24cV155JS0tLXz22Wdcd911PPbYY4TDYX7wgx9w6qmncsABB/DrX/+a7373u+RyOYCaZQCQzWbZY489uOqqqypq94wzzig5GPz+iEajPPXUU/zsZz8jFArl372np4dwOMwOO+xQUXtXXHEF3/nOd5g7dy6PPPJI3WX4ne98h56eHkaPHs0NN9zA2LFj6ejoYN68edx777188cUXhMNh9thjD2bPnk0qlcr7+pXI/OGHH6a5ubnXOMnlcrS1tREOhxk9ejQzZ87kzjvvpKGhIT/jDjROfSIpvE5KSS6XY+edd+Z3v/sdu+22Gx0dHdxzzz3cfffddHZ2Eo/HmTNnDp2dnUgpGTNmTF36vSarfnOsGviDrKuri/fff5/FixcTjUZxHCc/EPtev2bNGtatW8eqVatYvXo1n376adH7lore+tbAfvvtx/77748Qgnnz5uVNri9/+ctEIhHS6TSJRIKuri4SiQSO4+Tv6X/X1dVFW1sbs2fPZuedd0ZKybx587jlllvo7Ozko48+4rLLLuOtt96ip6eHKVOmcMghh5BOp/NBolpk4AeTam23VH+YpkkymWTt2rWsWrWKjz76iNWrV5NKpUin01W1N2nSJDo6Oujq6qq7DA899FASiQTHH38848aNw7ZtFi5cyE9/+lOWLVtGW1sbH330EU888QTnnnsuL7zwQi9zfyCZF/rgA42TYrN+NePUNE1yuRxz5sxhzz33xLZtHn/8cS6++GJWrlxJR0cHy5cv59e//jX33XcfAMcee2zd+n1I5BFIKQmFQjQ1NbHbbrsxY8YMTNMklUrx5ptv0tDQQDab7fWb733vexx11FFYlkUwGOTDDz/kySefrHo9eNasWYwYMSI/k+RyOY488kgOOugg9t57b5YuXZr3Afsu0ViWlU8siUQiTJgwIT/Dv/DCCzQ0NBAIBAgGg2zYsIEXX3yRqVOnIoRg77335tlnn813TC0y8P3satrdZ599WLRoEU1NTUV9Rl85xo8fz0UXXYRlWfl2FixYwIcffsjee+9ddXvBYLBXJL8eMhw/fjxPP/00EydOzPfnggULsCwr7374JjdALpcjnU5XNO7eeOONfECu0nESjUb7ybPYOH3qqadKBkz322+//LM++uijBAIBGhsbsW2bQCCQJ51QKFRzvzuOO/SIwJ99pk+fzquvvpr3md955x0uu+wyVq5cSWNjYz9/9bzzzuv1/8888wyPPfZYRevVvqBHjhzJzJkzEUKwdOlS3nvvPVpbW/nhD39Ia2srX/7yl3n99deJRqMlI8C+uWdZFo2NjXlzvaurC8Mw8kEkgO7u7vwSon/tYGTgL3VW2265oJHvD0+cOJHp06f3+ts777zD+++/n0+iqaY9X1b1kmEwGMzHf/zIfU9PTz5Al0qluP7665kzZw5tbW20tLSwcOFCzjnnnF5WTymZr1q1inA4XPE4+etf/1p0tu07Tp999lkef/zxfuPU70t/rPnvYllWPrjqy08I0WsM1aPfh4RF4AdPhBC9Bk5bW1vJ39x00018/PHHvZjWsqx+s2ah+VU42JPJJDNmzGDcuHHkcjlefvllIpEIH3/8MX//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" alt="Funchal">
+    <div><b>FUNCHAL</b><span>Relatório Fotográfico · Campo</span></div>
+  </div>
+  <div class="card">
+    <div class="sh"><i class="ti ti-lock"></i>Entrar</div>
+    <div class="fg"><label>Usuário</label>
+      <input type="text" id="lg-user" autocapitalize="none" spellcheck="false" autocomplete="username"
+             inputmode="email" placeholder="ex.: Funchal"
+             onkeydown="if(event.key==='Enter')document.getElementById('lg-pass').focus()"></div>
+    <div class="fg"><label>Senha</label>
+      <div style="position:relative"><input type="password" id="lg-pass" autocomplete="current-password"
+        style="padding-right:46px" onkeydown="if(event.key==='Enter')entrar()">
+      <button type="button" class="olho" onclick="verSenha('lg-pass',this)"><i class="ti ti-eye"></i></button></div></div>
+    <button class="btn p" id="lg-btn" onclick="entrar()"><i class="ti ti-login-2"></i>Entrar</button>
+    <div class="brow" style="margin-top:9px"><button class="btn" id="lg-baixar" onclick="baixarUsuarios()">
+      <i class="ti ti-cloud-download"></i>Baixar usuários agora</button></div>
+    <div class="al ae" id="lg-err"><i class="ti ti-alert-circle"></i><span></span></div>
+    <div class="al ai" id="lg-info"><i class="ti ti-info-circle"></i><span></span></div>
+    <div class="al aw" id="lg-diag"><i class="ti ti-stethoscope"></i><span></span></div>
+    <div style="font-size:12px;color:var(--text3);margin-top:16px;line-height:1.5">
+      Use o mesmo usuário e senha do sistema do escritório. Depois de entrar, o aparelho
+      continua conectado — só pede a senha de novo se você sair.</div>
+  </div>
+  <div style="text-align:center;padding:6px 0 20px">
+    <span style="font-size:11px;color:var(--text3)" ontouchstart="tocarVersao()" onclick="tocarVersao()">
+      versão <span id="lg-ver"></span></span>
+  </div>
+</div>
+
+<!-- ========== CONFIGURAÇÃO DA NUVEM (só para quem instala) ========== -->
+<div class="tela" id="t-setup">
+  <div class="card" style="margin-top:16px">
+    <div class="sh"><i class="ti ti-cloud-cog"></i>Configuração da nuvem</div>
+    <p style="font-size:13.5px;color:var(--text2);margin-bottom:12px">
+      Tela de instalação — o apontador não precisa dela. Os dados ficam em
+      <b>Configurações → Sincronização</b>, no sistema do computador.</p>
+    <div class="fg"><label>URL do projeto</label><input type="text" id="st-url" class="mono" placeholder="https://xxxx.supabase.co"></div>
+    <div class="fg"><label>Chave anon</label><input type="password" id="st-key" class="mono" placeholder="eyJhbGciOi..."></div>
+    <div class="f2">
+      <div class="fg"><label>Tabela</label><input type="text" id="st-tab" class="mono"></div>
+      <div class="fg"><label>Empresa</label><input type="text" id="st-org" class="mono"></div>
+    </div>
+    <button class="btn p" onclick="salvarSetup()"><i class="ti ti-device-floppy"></i>Salvar e testar</button>
+    <div class="brow" style="margin-top:9px"><button class="btn" onclick="ir('login')"><i class="ti ti-arrow-left"></i>Voltar ao login</button></div>
+    <div class="al ae" id="st-err"><i class="ti ti-alert-circle"></i><span></span></div>
+    <div class="al ag" id="st-ok"><i class="ti ti-circle-check"></i><span></span></div>
+  </div>
+</div>
+
+<!-- ================= INÍCIO ================= -->
+<div class="tela" id="t-inicio">
+  <div id="in-atualizacao"></div>
+  <div class="saudacao" id="in-ola">Olá</div>
+  <div class="sub" id="in-sub"></div>
+  <div class="kg" id="in-kpis"></div>
+  <div id="in-acoes"></div>
+</div>
+
+<!-- ================= SEQUÊNCIA DO DIA ================= -->
+<div class="tela" id="t-seq">
+  <div class="card">
+    <div class="sh"><i class="ti ti-clipboard-list"></i>1 · Dia de serviço</div>
+    <div class="f2">
+      <div class="fg"><label>Data *</label><input type="date" id="s-data" onchange="seqRender()"></div>
+      <div class="fg"><label>Equipe</label><select id="s-eq" onchange="seqRender()"></select></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Bairro / Rua</label><input type="text" id="s-rua" list="dl-ruas" placeholder="Ex.: Rua Farroupilha">
+        <div class="hint">Repetida em cada buraco novo.</div></div>
+      <div class="fg"><label>Serviço</label><select id="s-srv"></select></div>
+    </div>
+    <div id="s-relbar"></div>
+  </div>
+
+  <div id="s-gps" class="gpsbar" onclick="ativarGPS(true)"></div>
+  <div class="kg" id="s-kpis"></div>
+  <div id="s-lista"></div>
+
+  <button class="btn o" id="s-add" onclick="seqAddFuro()" style="margin-bottom:9px">
+    <i class="ti ti-plus"></i><span id="s-add-txt">Adicionar buraco (2 a 4 fotos)</span></button>
+  <button class="btn" id="s-rua-btn" onclick="abrirTrocaRua()" style="margin-bottom:12px">
+    <i class="ti ti-road"></i><span id="s-rua-txt">Trocar rua</span></button>
+
+  <div class="card">
+    <div class="sh"><i class="ti ti-send"></i>Fechar o dia</div>
+    <div id="s-status" style="font-size:13.5px;color:var(--text2);margin-bottom:11px"></div>
+    <button class="btn g" id="s-concluir" onclick="seqConcluir()"><i class="ti ti-checkbox"></i>Concluir · enviar e gerar relatório</button>
+    <div id="s-pos"></div>
+    <div class="brow" style="margin-top:9px">
+      <button class="btn sm" style="flex:1" onclick="seqEnviarFotos(false)"><i class="ti ti-cloud-up"></i>Só enviar</button>
+      <button class="btn sm" style="flex:1" onclick="seqGerarPDF(true)"><i class="ti ti-file-type-pdf"></i>Só o PDF</button>
+      <button class="btn sm" style="flex:1" onclick="seqPlanilha()"><i class="ti ti-table-export"></i>Planilha</button>
+    </div>
+    <div class="al ai" id="s-prog"><i class="ti ti-loader-2"></i><span></span></div>
+    <div class="al ag" id="s-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    <div class="al ae" id="s-err"><i class="ti ti-alert-circle"></i><span></span></div>
+    <div class="al aw" id="s-aviso"><i class="ti ti-alert-triangle"></i><span></span></div>
+  </div>
+</div>
+
+<!-- ================= MEUS LANÇAMENTOS ================= -->
+<div class="tela" id="t-meus">
+  <div class="kg" id="m-kpis"></div>
+  <div class="card" style="padding:12px">
+    <div class="f2">
+      <div class="fg" style="margin:0"><label>Situação</label><select id="m-st" onchange="renderMeus()">
+        <option value="">Todas</option><option value="Devolvido">Devolvidos</option>
+        <option value="Pendente">Pendentes</option><option value="Validado">Validados</option></select></div>
+      <div class="fg" style="margin:0"><label>Data</label><input type="date" id="m-data" onchange="renderMeus()"></div>
+    </div>
+    <div class="al ag" id="m-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    <div class="al ae" id="m-err"><i class="ti ti-alert-circle"></i><span></span></div>
+  </div>
+  <div id="m-lista"></div>
+</div>
+
+<!-- ================= ENVIAR ================= -->
+<div class="tela" id="t-enviar">
+  <div class="card">
+    <div class="sh"><i class="ti ti-cloud-up"></i>Envio para o escritório</div>
+    <div id="e-status" style="font-size:14px;margin-bottom:12px"></div>
+    <button class="btn p" onclick="sincronizar(false)"><i class="ti ti-refresh"></i>Sincronizar agora</button>
+    <div class="al ag" id="e-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    <div class="al ae" id="e-err"><i class="ti ti-alert-circle"></i><span></span></div>
+    <p style="font-size:13px;color:var(--text2);margin-top:12px">
+      Você pode lançar buracos sem internet o dia inteiro — tudo fica guardado no aparelho e sobe assim que a conexão voltar.</p>
+  </div>
+  <div class="card">
+    <div class="sh"><i class="ti ti-info-circle"></i>Como funciona a validação</div>
+    <p style="font-size:13.5px;color:var(--text2)">
+      Todo buraco enviado chega ao escritório como <b>Pendente</b>. O gestor confere as fotos e
+      <b>valida</b> — só então ele conta no relatório do dia. Se algo estiver errado, ele
+      <b>devolve com o motivo</b>, e o buraco aparece aqui em vermelho para você corrigir e reenviar.</p>
+  </div>
+</div>
+
+<!-- ================= AJUSTES ================= -->
+<div class="tela" id="t-ajustes">
+  <div class="card">
+    <div class="sh"><i class="ti ti-user-cog"></i>Conectado como</div>
+    <div id="a-usuario" style="font-size:15px;margin-bottom:14px"></div>
+    <div class="fg"><label>Equipe</label><select id="a-eq"></select></div>
+    <div class="fg"><label>Apelido do aparelho</label><input type="text" id="a-disp"></div>
+    <button class="btn p" onclick="salvarAjustes()"><i class="ti ti-device-floppy"></i>Salvar</button>
+    <div class="brow" style="margin-top:9px"><button class="btn" onclick="sair()"><i class="ti ti-logout"></i>Sair desta conta</button></div>
+    <div class="al ag" id="a-ok"><i class="ti ti-circle-check"></i><span></span></div>
+  </div>
+  <div class="card">
+    <div class="sh"><i class="ti ti-photo-cog"></i>Qualidade das fotos</div>
+    <div class="fg"><label>Tamanho enviado</label><select id="a-qual" onchange="salvarQualidade()">
+      <option value="800">Econômico — gasta menos internet</option>
+      <option value="1000" selected>Normal (recomendado)</option>
+      <option value="1400">Alta — fotos mais nítidas, envio mais lento</option>
+    </select><div class="hint">As fotos são reduzidas no aparelho antes de subir.</div></div>
+  </div>
+  <div class="card">
+    <div class="sh"><i class="ti ti-map-pin"></i>Localização das fotos</div>
+    <div id="a-gps" style="font-size:13.5px;color:var(--text2);margin-bottom:11px"></div>
+    <button class="btn" onclick="ativarGPS(true);setTimeout(pintarGpsAjustes,1200)"><i class="ti ti-current-location"></i>Testar GPS e bússola</button>
+    <div class="brow" style="margin-top:9px"><button class="btn" onclick="abrirAjudaGPS()"><i class="ti ti-help-circle"></i>Como liberar a localização</button></div>
+  </div>
+  <div class="card">
+    <div class="sh"><i class="ti ti-refresh-alert"></i>Versão</div>
+    <div id="a-versao" style="font-size:13.5px;color:var(--text2);margin-bottom:11px"></div>
+    <button class="btn" onclick="procurarAtualizacao()"><i class="ti ti-cloud-download"></i>Procurar atualização da tela</button>
+    <div class="brow" style="margin-top:9px" id="a-ver-extra"></div>
+    <div class="al ag" id="a-ver-ok"><i class="ti ti-circle-check"></i><span></span></div>
+    <div class="al ai" id="a-ver-info"><i class="ti ti-info-circle"></i><span></span></div>
+    <div id="a-app" style="display:none;margin-top:13px;border-top:1px solid var(--border);padding-top:12px">
+      <div style="font-size:13.5px;color:var(--text2);margin-bottom:10px">
+        A <b>tela</b> se atualiza sozinha. O <b>aplicativo</b> baixa sozinho e pede
+        um toque em <i>Instalar</i> — o Android não deixa nenhum programa se instalar calado.</div>
+      <div class="brow" id="a-app-btn"></div>
+      <div class="al ag" id="a-app-ok"><i class="ti ti-circle-check"></i><span></span></div>
+      <div class="al ai" id="a-app-info"><i class="ti ti-info-circle"></i><span></span></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="sh"><i class="ti ti-link-off"></i>Conexão</div>
+    <div id="a-conex" style="font-size:13.5px;color:var(--text2);margin-bottom:12px"></div>
+    <div class="brow" style="margin-top:10px">
+      <button class="btn d" onclick="limparAparelho()"><i class="ti ti-trash"></i>Limpar dados deste aparelho</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<div class="nav" id="nav">
+  <div id="nv-inicio" onclick="ir('inicio')"><i class="ti ti-home"></i>Início</div>
+  <div id="nv-seq" onclick="ir('seq')"><i class="ti ti-camera-plus"></i>Sequência</div>
+  <div id="nv-meus" onclick="ir('meus')"><i class="ti ti-list-check"></i>Meus<span class="bdg" id="nv-bdg" style="display:none">0</span></div>
+  <div id="nv-enviar" onclick="ir('enviar')"><i class="ti ti-cloud-up"></i>Enviar</div>
+  <div id="nv-ajustes" onclick="ir('ajustes')"><i class="ti ti-settings"></i>Ajustes</div>
+</div>
+
+<datalist id="dl-ruas"></datalist>
+<input type="file" id="seq-file" accept="image/*" capture="environment" style="display:none" onchange="seqRecebeuFoto(this)">
+
+<div class="ov" id="ov-rua">
+  <div class="sheet">
+    <div style="font-size:17px;font-weight:800;margin-bottom:4px">Trocar de rua</div>
+    <div style="font-size:13.5px;color:var(--text2);margin-bottom:14px">
+      Os buracos já lançados continuam com a rua antiga. Os próximos saem com a nova.</div>
+    <div class="fg"><label>Nova rua</label>
+      <input type="text" id="ru-nome" list="dl-ruas" placeholder="Ex.: Rua Bahia"></div>
+    <div class="fg"><label>Serviço (opcional)</label><select id="ru-srv"></select></div>
+    <button class="btn p" onclick="confirmarTrocaRua()"><i class="ti ti-check"></i>Continuar nesta rua</button>
+    <button class="btn" style="margin-top:9px" onclick="document.getElementById('ov-rua').style.display='none'">Cancelar</button>
+    <div class="al ae" id="ru-err"><i class="ti ti-alert-circle"></i><span></span></div>
+  </div>
+</div>
+
+<div class="ov" id="ov-gps">
+  <div class="sheet" style="max-height:88vh;overflow:auto">
+    <div style="font-size:17px;font-weight:800;margin-bottom:4px">Liberar a localização</div>
+    <div style="font-size:13px;color:var(--text2);margin-bottom:12px" id="gps-diag"></div>
+    <div id="gps-passos" style="font-size:14px;line-height:1.55"></div>
+    <button class="btn p" style="margin-top:14px" onclick="ativarGPS(true)"><i class="ti ti-current-location"></i>Já liberei — testar agora</button>
+    <button class="btn" style="margin-top:9px" onclick="location.reload()"><i class="ti ti-refresh"></i>Recarregar o app</button>
+    <button class="btn" style="margin-top:9px" onclick="document.getElementById('ov-gps').style.display='none'">Fechar</button>
+  </div>
+</div>
+
+<div class="ov" id="ov-med">
+  <div class="sheet">
+    <div style="font-size:17px;font-weight:800;margin-bottom:4px" id="md-tit">Medida do buraco</div>
+    <div style="font-size:13.5px;color:var(--text2);margin-bottom:14px" id="md-sub">
+      Foto guardada. Meça o buraco agora, enquanto ele está na sua frente.</div>
+    <div class="medrow" style="margin-top:0">
+      <div><label>Compr. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+        id="md-comp" placeholder="0,00" oninput="medSheetPinta()"></div>
+      <div><label>Largura (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+        id="md-larg" placeholder="0,00" oninput="medSheetPinta()"></div>
+      <div><label>Prof. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+        id="md-prof" placeholder="0,00" oninput="medSheetPinta()"></div>
+    </div>
+    <div class="medres vazio" id="md-res" style="margin-bottom:14px">
+      Comprimento e largura em metros — 80 cm é 0,80.</div>
+    <button class="btn p" onclick="medSheetSalvar()"><i class="ti ti-check"></i>Salvar medida</button>
+    <button class="btn" style="margin-top:9px" onclick="medSheetFechar()">Agora não</button>
+  </div>
+</div>
+
+<div class="ov" id="ov-conf">
+  <div class="sheet">
+    <div style="font-size:17px;font-weight:800;margin-bottom:6px" id="ov-tit"></div>
+    <div style="font-size:14px;color:var(--text2);margin-bottom:16px" id="ov-msg"></div>
+    <button class="btn d" id="ov-ok">Confirmar</button>
+    <button class="btn" id="ov-nao" style="margin-top:9px">Cancelar</button>
+  </div>
+</div>
+
+<script>
+/* ======================================================================
+   FUNCHAL · APP DE CAMPO
+   Companheiro do sistema de Relatório Fotográfico. Funciona offline e
+   sincroniza pela mesma tabela na nuvem usada pelo computador.
+   ====================================================================== */
+const APP_VERSION = '20260929-003';
+
+/* ======================================================================
+   CONFIGURAÇÃO DA NUVEM — preencha UMA VEZ, antes de publicar o app.
+   Os dois valores estão no sistema do computador, em
+   Configurações → Sincronização. Depois de preenchidos, o apontador
+   abre o link e vê direto a tela de usuário e senha.
+   ====================================================================== */
+const NUVEM = {
+  url    : 'https://wfcblpogqfbdamhbdahy.supabase.co',
+  key    : 'sb_publishable_MqtHd48UMs6ynegxXif0uw_5Jkb-bNS',
+  tabela : 'funchal_registros',
+  org    : 'FUNCHAL',
+  empresa: 'FUNCHAL'
+};
+
+/* ------------------------------- BANCO ---------------------------------- */
+const DB_NAME='FUNCHAL_CAMPO_DB', DB_VERSION=6;   /* bump obrigatorio ao somar store */
+const STORES=['furos','relatorios','equipes','servicos','equipamentos','equipuso','historico','dispositivos','usuarios','fotos','imagens'];
+/* 'imagens' guarda os bytes das fotos e NUNCA sobe pela tabela: as imagens vao para o Storage. */
+const SYNC_STORES=['furos','relatorios','equipes','servicos','equipamentos','equipuso','historico','dispositivos','usuarios','fotos'];
+const BUCKET='funchal-fotos';
+let db=null;
+
+function initDB(){
+  return new Promise((res,rej)=>{
+    const req=indexedDB.open(DB_NAME,DB_VERSION);
+    req.onupgradeneeded=e=>{
+      const d=e.target.result;
+      STORES.forEach(s=>{ if(!d.objectStoreNames.contains(s)) d.createObjectStore(s,{keyPath:'id',autoIncrement:true}); });
+    };
+    req.onsuccess=e=>{db=e.target.result;res(db)};
+    req.onerror=e=>rej(e.target.error);
+  });
+}
+function dbGetAll(s){return new Promise((res,rej)=>{try{const r=db.transaction(s,'readonly').objectStore(s).getAll();r.onsuccess=()=>res(r.result||[]);r.onerror=()=>rej(r.error)}catch(e){rej(e)}})}
+function _rawAdd(s,r){return new Promise((res,rej)=>{const q=db.transaction(s,'readwrite').objectStore(s).add(r);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+function _rawPut(s,r){return new Promise((res,rej)=>{const q=db.transaction(s,'readwrite').objectStore(s).put(r);q.onsuccess=()=>res(q.result);q.onerror=()=>rej(q.error)})}
+function _rawDel(s,i){return new Promise((res,rej)=>{const q=db.transaction(s,'readwrite').objectStore(s).delete(i);q.onsuccess=()=>res(1);q.onerror=()=>rej(q.error)})}
+function dbClear(s){return new Promise((res,rej)=>{const q=db.transaction(s,'readwrite').objectStore(s).clear();q.onsuccess=()=>res(1);q.onerror=()=>rej(q.error)})}
+function novoUid(){ return (window.crypto&&crypto.randomUUID) ? crypto.randomUUID()
+  : 'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,10); }
+async function dbAdd(s,d){ const r={...d,_ts:Date.now(),_user:ID.nome||'campo'}; if(!r.uid) r.uid=novoUid();
+  const id=await _rawAdd(s,r); fila(s,r.uid,false); return id; }
+async function dbPut(s,d){ const r={...d,_ts:Date.now(),_user:ID.nome||'campo'}; if(!r.uid) r.uid=novoUid();
+  const id=await _rawPut(s,r); fila(s,r.uid,false); return id; }
+
+/* ------------------------------ SENHAS ---------------------------------- */
+/* Mesmo algoritmo do sistema do escritorio: o hash gerado la vale aqui. */
+function sha256Hex(msg){
+  const K=new Uint32Array([
+    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  let H=new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+  const bytes=[]; const u8=unescape(encodeURIComponent(String(msg)));
+  for(let i=0;i<u8.length;i++) bytes.push(u8.charCodeAt(i));
+  const bits=bytes.length*8;
+  bytes.push(0x80); while(bytes.length%64!==56) bytes.push(0);
+  bytes.push(0,0,0,0,(bits>>>24)&255,(bits>>>16)&255,(bits>>>8)&255,bits&255);
+  const w=new Uint32Array(64);
+  for(let i=0;i<bytes.length;i+=64){
+    for(let j=0;j<16;j++) w[j]=((bytes[i+j*4]<<24)|(bytes[i+j*4+1]<<16)|(bytes[i+j*4+2]<<8)|bytes[i+j*4+3])>>>0;
+    for(let j=16;j<64;j++){
+      const a15=w[j-15],a2=w[j-2];
+      const s0=(((a15>>>7)|(a15<<25))^((a15>>>18)|(a15<<14))^(a15>>>3))>>>0;
+      const s1=(((a2>>>17)|(a2<<15))^((a2>>>19)|(a2<<13))^(a2>>>10))>>>0;
+      w[j]=(w[j-16]+s0+w[j-7]+s1)>>>0;
+    }
+    let a=H[0],b=H[1],cc=H[2],d=H[3],e=H[4],ff=H[5],g=H[6],h=H[7];
+    for(let j=0;j<64;j++){
+      const S1=(((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7)))>>>0;
+      const ch=((e&ff)^((~e)&g))>>>0;
+      const t1=(h+S1+ch+K[j]+w[j])>>>0;
+      const S0=(((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10)))>>>0;
+      const mj=((a&b)^(a&cc)^(b&cc))>>>0;
+      const t2=(S0+mj)>>>0;
+      h=g;g=ff;ff=e;e=(d+t1)>>>0;d=cc;cc=b;b=a;a=(t1+t2)>>>0;
+    }
+    H[0]=(H[0]+a)>>>0;H[1]=(H[1]+b)>>>0;H[2]=(H[2]+cc)>>>0;H[3]=(H[3]+d)>>>0;
+    H[4]=(H[4]+e)>>>0;H[5]=(H[5]+ff)>>>0;H[6]=(H[6]+g)>>>0;H[7]=(H[7]+h)>>>0;
+  }
+  let out=''; for(let i=0;i<8;i++) out+=H[i].toString(16).padStart(8,'0');
+  return out;
+}
+function hashSenha(senha,salt){ let h=salt+'|'+senha; for(let i=0;i<1200;i++) h=sha256Hex(h+'|'+salt); return h; }
+const NOME_PERFIL={g:'Gestor',a:'Encarregado',b:'Apontador'};
+let USUARIO=null;
+
+function verSenha(id,btn){
+  const el=$(id); if(!el) return;
+  const ver=el.type==='password'; el.type=ver?'text':'password';
+  btn.innerHTML=`<i class="ti ti-eye${ver?'-off':''}"></i>`;
+}
+async function entrar(){
+  limpa('lg-err');
+  const login=$('lg-user').value.trim().toLowerCase(), senha=$('lg-pass').value;
+  if(!login||!senha){ alerta('lg-err','Informe o usuário e a senha.'); return; }
+  const btn=$('lg-btn'); btn.disabled=true; btn.innerHTML='<i class="ti ti-loader-2"></i>Verificando...';
+  try{
+    let us=await dbGetAll('usuarios');
+    if(!us.length && conectado() && navigator.onLine){
+      try{ await baixar(); us=await dbGetAll('usuarios'); }catch(e){ console.warn(e); }
+    }
+    if(!us.length){
+      alerta('lg-err', conectado()
+        ? 'Este aparelho ainda não recebeu a lista de usuários. Toque em <b>Baixar usuários agora</b> para ver o que está impedindo.'
+        : 'Este aparelho ainda não tem nenhum usuário. Feche e abra o app: ele cria o usuário <b>Funchal</b> (senha <b>Funchal</b>) para demonstração.', 0);
+      pintarDiagnostico(false);
+      return;
+    }
+    const u=us.find(x=>(x.login||'').toLowerCase()===login);
+    if(!u || u.hash!==hashSenha(senha,u.salt)){ alerta('lg-err','Usuário ou senha incorretos.'); $('lg-pass').value=''; return; }
+    if(u.ativo===false){ alerta('lg-err','Este usuário está desativado. Procure o gestor.'); return; }
+    USUARIO=u;
+    ID.nome=u.nome; ID.login=u.login; ID.perfil=u.perfil||'b';
+    if(u.equipe) ID.equipe=u.equipe;
+    if(!ID.dispositivo) ID.dispositivo='Celular '+String(u.nome).split(' ')[0];
+    localStorage.setItem('fncapp_sessao', u.login); localStorage.setItem('fncapp_login_ultimo', u.login);
+    salvarCfg();
+    await registrarDispositivo();
+    await preencherListas();
+    pintarQuem(); ir('inicio');
+  }catch(err){ alerta('lg-err','Erro ao entrar: '+esc(err.message||err)); }
+  finally{ btn.disabled=false; btn.innerHTML='<i class="ti ti-login-2"></i>Entrar'; }
+}
+/* Enquanto o app não estiver ligado a um escritório, ele nasce com um único
+   usuário, guardado só neste aparelho e nunca enviado para lugar nenhum.
+   Assim que a nuvem é configurada, quem manda é a lista do escritório. */
+const USR_DEMO = {uid:'usr_funchal', login:'funchal', nome:'Funchal', perfil:'g', equipe:'',
+                  salt:'funchal-2026-seed', ativo:true, demo:true,
+                  criadoEm:'2026-01-01T00:00:00.000Z'};
+async function seedUsuarioDemo(){
+  if(conectado()) return;                       /* com escritório, a lista vem de lá */
+  const us = await dbGetAll('usuarios');
+  if(us.some(u=>(u.login||'').toLowerCase()===USR_DEMO.login)) return;
+  await _rawAdd('usuarios', {...USR_DEMO, hash: hashSenha('Funchal', USR_DEMO.salt), _ts:Date.now()});
+}
+async function restaurarSessao(){
+  const login=localStorage.getItem('fncapp_sessao'); if(!login) return false;
+  const us=await dbGetAll('usuarios');
+  const u=us.find(x=>(x.login||'').toLowerCase()===String(login).toLowerCase());
+  if(!u || u.ativo===false) return false;
+  USUARIO=u; ID.nome=u.nome; ID.login=u.login; ID.perfil=u.perfil||'b';
+  return true;
+}
+function sair(){
+  confirmarSheet('Sair desta conta',
+    'Você voltará para a tela de login. Os lançamentos guardados neste aparelho <b>não são apagados</b>.',
+    ()=>{ localStorage.removeItem('fncapp_sessao'); USUARIO=null; location.reload(); });
+}
+
+/* --------------------------- CONFIG LOCAL ------------------------------- */
+const CFG_KEY='fncapp_cfg', FILA_KEY='fncapp_fila', PULL_KEY='fncapp_ultimo';
+let SYNC={url:'',key:'',tabela:'funchal_registros',org:'FUNCHAL',empresa:'FUNCHAL'};
+let ID={nome:'',login:'',perfil:'b',equipe:'',dispositivo:'',qualidade:1000};
+let OCUPADO=false;
+
+function carregarCfg(){
+  try{ const c=JSON.parse(localStorage.getItem(CFG_KEY)||'{}');
+    SYNC={...SYNC,...(c.sync||{})}; ID={...ID,...(c.id||{})}; }catch(e){}
+  /* O que está gravado no arquivo tem prioridade: assim uma troca de projeto
+     feita no código vale para todo mundo, sem mexer em cada aparelho. */
+  if(NUVEM.url && NUVEM.key){
+    SYNC = {url:NUVEM.url, key:NUVEM.key, tabela:NUVEM.tabela||'funchal_registros',
+            org:NUVEM.org||'FUNCHAL', empresa:NUVEM.empresa||'FUNCHAL'};
+  }
+}
+function salvarCfg(){ localStorage.setItem(CFG_KEY, JSON.stringify({sync:SYNC,id:ID})); }
+function conectado(){ return !!(SYNC.url && SYNC.key); }
+/* Entrar é uma coisa; sincronizar é outra. O app abre e trabalha com o
+   usuário que já está no aparelho, mesmo sem nuvem configurada — é assim que
+   ele roda numa demonstração e quando a internet cai no meio da rua. */
+function pronto(){ return !!USUARIO; }
+
+function fila(store,uid,del){
+  if(!SYNC_STORES.includes(store)||!uid) return;
+  const f=lerFila().filter(i=>!(i.store===store&&i.uid===uid));
+  f.push({store,uid,del:!!del,ts:Date.now()});
+  localStorage.setItem(FILA_KEY,JSON.stringify(f));
+  pintarChip();
+  if(navigator.onLine && conectado()){ clearTimeout(window._st); window._st=setTimeout(()=>sincronizar(true),3500); }
+}
+function lerFila(){ try{return JSON.parse(localStorage.getItem(FILA_KEY)||'[]')}catch(e){return []} }
+function gravarFila(f){ localStorage.setItem(FILA_KEY,JSON.stringify(f)); }
+
+/* ------------------------------ HELPERS --------------------------------- */
+const $=id=>document.getElementById(id);
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function fmtData(iso){ if(!iso)return '—'; const p=String(iso).split('-'); return p.length===3?`${p[2]}/${p[1]}/${p[0]}`:iso; }
+function hoje(){ return new Date().toISOString().slice(0,10); }
+function alerta(id,msg,ms){ const el=$(id); if(!el)return; el.querySelector('span').innerHTML=msg; el.classList.add('show');
+  if(ms!==0) setTimeout(()=>el.classList.remove('show'), ms||4500); }
+function limpa(...ids){ ids.forEach(i=>$(i)?.classList.remove('show')); }
+function confirmarSheet(tit,msg,cb){
+  $('ov-tit').textContent=tit; $('ov-msg').innerHTML=msg;
+  const b=$('ov-ok'), n=b.cloneNode(true); b.parentNode.replaceChild(n,b);
+  n.className='btn d'; n.textContent='Confirmar';
+  n.onclick=()=>{ $('ov-conf').style.display='none'; cb(); };
+  const c=$('ov-nao'), m=c.cloneNode(true); c.parentNode.replaceChild(m,c);
+  m.textContent='Cancelar';
+  m.onclick=()=>{ $('ov-conf').style.display='none'; };
+  $('ov-conf').style.display='flex';
+}
+/* Mesma folha, mas esperando a resposta: devolve true no botao de cima e
+   false no de baixo. Serve para decidir no meio de uma tarefa (por exemplo,
+   guardar ou nao uma foto que saiu sem localizacao). */
+function perguntaSheet(tit,msg,txtSim,txtNao){
+  return new Promise(res=>{
+    $('ov-tit').textContent=tit; $('ov-msg').innerHTML=msg;
+    const b=$('ov-ok'), n=b.cloneNode(true); b.parentNode.replaceChild(n,b);
+    n.textContent = txtSim; n.className = 'btn p';
+    const c=$('ov-nao'), m=c.cloneNode(true); c.parentNode.replaceChild(m,c);
+    m.textContent = txtNao;
+    n.onclick=()=>{ $('ov-conf').style.display='none'; res(true); };
+    m.onclick=()=>{ $('ov-conf').style.display='none'; res(false); };
+    $('ov-conf').style.display='flex';
+  });
+}
+function comprimir(file,maxW,q){
+  return new Promise((res,rej)=>{
+    const fr=new FileReader();
+    fr.onload=()=>{ const img=new Image();
+      img.onload=()=>{ let w=img.width,h=img.height;
+        if(w>maxW){h=Math.round(h*maxW/w);w=maxW}
+        const cv=document.createElement('canvas');cv.width=w;cv.height=h;
+        const cx=cv.getContext('2d');cx.fillStyle='#fff';cx.fillRect(0,0,w,h);cx.drawImage(img,0,0,w,h);
+        res(cv.toDataURL('image/jpeg',q||0.66)); };
+      img.onerror=()=>rej(new Error('Imagem inválida')); img.src=fr.result; };
+    fr.onerror=()=>rej(new Error('Falha ao ler o arquivo')); fr.readAsDataURL(file);
+  });
+}
+
+/* ---------------------------- SINCRONIZAÇÃO ----------------------------- */
+async function syncFetch(caminho,opts){
+  opts=opts||{};
+  const r=await fetch((SYNC.url||'').replace(/\/+$/,'')+'/rest/v1/'+caminho,{...opts,
+    headers:{apikey:SYNC.key,Authorization:'Bearer '+SYNC.key,'Content-Type':'application/json',...(opts.headers||{})}});
+  if(!r.ok) throw new Error('HTTP '+r.status+' · '+(await r.text()).slice(0,160));
+  return r;
+}
+async function enviar(){
+  const f=lerFila(); if(!f.length) return 0;
+  const lote=[];
+  for(const it of f){
+    if(it.del){ lote.push({uid:it.uid,org:SYNC.org,store:it.store,dados:{},deletado:true,atualizado_em:new Date().toISOString()}); continue; }
+    const all=await dbGetAll(it.store);
+    const rec=all.find(x=>x.uid===it.uid); if(!rec) continue;
+    const limpo={...rec}; delete limpo.id;
+    lote.push({uid:it.uid,org:SYNC.org,store:it.store,dados:limpo,deletado:false,atualizado_em:new Date().toISOString()});
+  }
+  for(let i=0;i<lote.length;i+=3){
+    await syncFetch(SYNC.tabela,{method:'POST',headers:{Prefer:'resolution=merge-duplicates,return=minimal'},
+      body:JSON.stringify(lote.slice(i,i+3))});
+  }
+  /* Remove só o que foi enviado: um furo salvo durante o envio continua na fila. */
+  const enviados=new Map(f.map(i=>[i.store+'|'+i.uid, i.ts]));
+  gravarFila(lerFila().filter(i=>{
+    const t=enviados.get(i.store+'|'+i.uid);
+    return !(t!==undefined && i.ts<=t);
+  }));
+  return lote.length;
+}
+async function baixar(){
+  let desde=localStorage.getItem(PULL_KEY)||'1970-01-01T00:00:00.000Z';
+  let total=0,rodadas=0;
+  while(rodadas++<25){
+    const q=`${SYNC.tabela}?select=*&org=eq.${encodeURIComponent(SYNC.org)}`
+          + `&atualizado_em=gt.${encodeURIComponent(desde)}&order=atualizado_em.asc&limit=30`;
+    const linhas=await (await syncFetch(q,{method:'GET'})).json();
+    if(!linhas.length) break;
+    for(const ln of linhas){
+      if(ln.atualizado_em>desde) desde=ln.atualizado_em;
+      if(!SYNC_STORES.includes(ln.store)) continue;
+      const all=await dbGetAll(ln.store);
+      const local=all.find(x=>x.uid===ln.uid);
+      if(ln.deletado){ if(local) await _rawDel(ln.store,local.id); total++; continue; }
+      if(local && (local._ts||0) > new Date(ln.atualizado_em).getTime()+1500) continue;
+      const rec={...(ln.dados||{}),uid:ln.uid};
+      /* Cada aparelho tem seus próprios ids locais — o vínculo real é o uid da medição. */
+      if(local){ rec.id=local.id; await _rawPut(ln.store,rec); }
+      else { delete rec.id; await _rawAdd(ln.store,rec); }
+      total++;
+    }
+    localStorage.setItem(PULL_KEY,desde);
+    if(linhas.length<30) break;
+  }
+  return total;
+}
+async function sincronizar(silencioso){
+  if(!conectado()){ if(!silencioso) alerta('e-err','Este app ainda não foi ligado ao sistema do escritório.'); return; }
+  if(OCUPADO) return;
+  OCUPADO=true; pintarChip();
+  try{
+    const env=await enviar();
+    const bai=await baixar();
+    localStorage.setItem('fncapp_quando',new Date().toISOString());
+    localStorage.removeItem('fncapp_erro');
+    await relMigrar();   /* furos vindos do escritório entram no relatório do dia/equipe deles */
+    if(!silencioso) alerta('e-ok',`Pronto: <b>${env}</b> enviado(s), <b>${bai}</b> recebido(s) do escritório.`);
+    await preencherListas(); await renderMeus(); pintarEnvio();
+    if(TELA==='seq') await seqRender();
+    if(TELA==='inicio') await inicioRender();
+  }catch(err){
+    console.error(err);
+    localStorage.setItem('fncapp_erro', String(err && err.message || err));
+    if(!silencioso) alerta('e-err','Não foi possível sincronizar: '+esc(err.message||err)+'<br>Verifique a internet e tente de novo. Nada foi perdido.',9000);
+  }finally{ OCUPADO=false; pintarChip(); pintarEnvio(); }
+}
+function pintarChip(){
+  const c=$('chip'); const pend=lerFila().length;
+  if(!conectado()){ c.className='chip off'; c.innerHTML='<i class="ti ti-cloud-off"></i>Sem conexão'; }
+  else if(OCUPADO){ c.className='chip busy'; c.innerHTML='<i class="ti ti-refresh"></i>Enviando'; }
+  else if(!navigator.onLine){ c.className='chip pend'; c.innerHTML=`<i class="ti ti-wifi-off"></i>${pend?pend+' na fila':'Offline'}`; }
+  else if(pend){ c.className='chip pend'; c.innerHTML=`<i class="ti ti-cloud-up"></i>${pend} p/ enviar`; }
+  else { c.className='chip ok'; c.innerHTML='<i class="ti ti-cloud-check"></i>Em dia'; }
+}
+function pintarGpsAjustes(){
+  const el = $('a-gps'); if(!el) return;
+  const prob = gpsMotivo();
+  const linhas = [];
+  linhas.push(`Endereço seguro (https): <b>${window.isSecureContext?'sim':'NÃO'}</b>`);
+  linhas.push(`Permissão do site: <b>${GPS_PERM==='granted'?'liberada':GPS_PERM==='denied'?'BLOQUEADA':GPS_PERM==='prompt'?'ainda não perguntada':'desconhecida'}</b>`);
+  linhas.push(`Última posição: <b>${GPS_ULTIMO?GPS_ULTIMO.lat.toFixed(5)+', '+GPS_ULTIMO.lng.toFixed(5)+' (±'+GPS_ULTIMO.prec+' m)':'nenhuma'}</b>`);
+  linhas.push(`Bússola: <b>${HEADING!=null?grausTxt(HEADING):'sem leitura'}</b>`);
+  if(prob) linhas.push(`<span style="color:var(--red)">${prob.t}</span>`);
+  el.innerHTML = linhas.join('<br>');
+}
+function pintarEnvio(){
+  const pend=lerFila().length, q=localStorage.getItem('fncapp_quando');
+  const el=$('e-status'); if(!el) return;
+  el.innerHTML=`
+    <div class="kg" style="margin-bottom:0">
+      <div class="kc ${pend?'am':'gn'}"><div class="kl">Na fila</div><div class="kv">${pend}</div></div>
+      <div class="kc ${navigator.onLine?'gn':'rd'}"><div class="kl">Internet</div>
+        <div class="kv" style="font-size:17px">${navigator.onLine?'Conectado':'Offline'}</div></div>
+    </div>
+    <div style="font-size:13px;color:var(--text2);margin-top:10px">
+      Última sincronização: <b>${q?new Date(q).toLocaleString('pt-BR'):'nunca'}</b></div>`;
+  const ac=$('a-conex');
+  if(ac) ac.innerHTML = conectado()
+    ? `Ligado a <b>${esc(SYNC.empresa||SYNC.org)}</b><br><span class="mono">${esc((SYNC.url||'').slice(0,44))}...</span>`
+    : 'Este app ainda não foi ligado ao sistema do escritório.';
+}
+
+/* ------------------------------ PAREAMENTO ------------------------------ */
+/* --------------------- CONFIGURAÇÃO (quem instala) ---------------------- */
+let _toques=0, _toqueT=null;
+function tocarVersao(){
+  clearTimeout(_toqueT); _toques++;
+  _toqueT = setTimeout(()=>{_toques=0}, 1200);
+  if(_toques>=5){ _toques=0; ir('setup'); }
+}
+function salvarSetup(){
+  limpa('st-err','st-ok');
+  const url=$('st-url').value.trim(), key=$('st-key').value.trim();
+  if(!url||!key){ alerta('st-err','Informe a URL do projeto e a chave anon.'); return; }
+  SYNC={url, key, tabela:$('st-tab').value.trim()||'funchal_registros',
+        org:($('st-org').value.trim()||'FUNCHAL').toUpperCase(), empresa:SYNC.empresa};
+  salvarCfg();
+  alerta('st-ok','Salvo. Buscando os usuários...');
+  sincronizar(true).then(async()=>{
+    const us=await dbGetAll('usuarios');
+    if(us.length){ alerta('st-ok', us.length+' usuário(s) recebido(s). Pode fazer o login.'); setTimeout(()=>ir('login'),1200); }
+    else alerta('st-err','Conectou, mas nenhum usuário veio. Confira se é o projeto certo e se o sistema do computador já sincronizou.',9000);
+  }).catch(e=>alerta('st-err','Não conectou: '+esc(e.message||e),9000));
+}
+async function baixarUsuarios(){
+  limpa('lg-err','lg-info','lg-diag');
+  const b=$('lg-baixar'); b.disabled=true; b.innerHTML='<i class="ti ti-loader-2"></i>Baixando...';
+  try{
+    if(!conectado()) throw new Error('Este app não tem a conexão gravada. Toque 5 vezes em “versão” para configurar.');
+    await baixar();
+    const us=await dbGetAll('usuarios');
+    await preencherListas();
+    if(us.length) alerta('lg-info', `<b>${us.length}</b> usuário(s) recebido(s). Pode entrar.`, 0);
+    else alerta('lg-diag','Conectou na nuvem, mas nenhum usuário veio. Peça ao escritório para abrir o sistema no computador e conferir se o indicador do topo mostra <b>Sincronizado</b>.',0);
+  }catch(err){
+    localStorage.setItem('fncapp_erro', String(err && err.message || err));
+    alerta('lg-err','Não deu para baixar: '+esc(err.message||err), 0);
+    pintarDiagnostico(true);
+  }finally{ b.disabled=false; b.innerHTML='<i class="ti ti-cloud-download"></i>Baixar usuários agora'; }
+}
+function pintarDiagnostico(forcar){
+  const partes=[];
+  if(location.protocol==='file:'){
+    partes.push('O app está aberto como <b>arquivo no aparelho</b> (endereço começando com <span class="mono">file://</span>). '
+      +'Muitos navegadores bloqueiam o acesso à internet nesse modo. Publique o app em um endereço <b>https</b> e abra por lá.');
+  }
+  if(!navigator.onLine) partes.push('O aparelho está <b>sem internet</b> no momento.');
+  const err=localStorage.getItem('fncapp_erro');
+  if(err && (forcar||partes.length===0)) partes.push('Último erro de conexão: <span class="mono">'+esc(err.slice(0,180))+'</span>');
+  if(partes.length) alerta('lg-diag', partes.join('<br><br>'), 0);
+}
+function mostrarLogin(){
+  document.querySelectorAll('.tela').forEach(e=>e.classList.remove('on'));
+  $('t-login').classList.add('on');
+  $('nav').style.display='none';
+  const _a = versaoDoApp();
+  $('lg-ver').textContent = (_a ? 'app '+_a.nome+' · tela ' : '') + APP_VERSION;
+  $('lg-user').value=localStorage.getItem('fncapp_login_ultimo')||'';
+  $('lg-pass').value='';
+  if(!conectado()){
+    alerta('lg-info','Modo demonstração: sem escritório ligado. Entre com <b>Funchal</b> e senha <b>Funchal</b> — '
+      + 'o que for lançado fica guardado só neste aparelho.',0);
+  } else {
+    dbGetAll('usuarios').then(us=>{
+      if(!us.length) pintarDiagnostico(false);
+    }).catch(()=>{});
+  }
+  setTimeout(()=>($('lg-user').value?$('lg-pass'):$('lg-user')).focus(),150);
+}
+
+async function registrarDispositivo(){
+  try{
+    const all=await dbGetAll('dispositivos');
+    const chave=ID.dispositivo+'|'+ID.nome;
+    const ja=all.find(d=>d.chave===chave);
+    const rec={chave, nome:ID.nome, login:ID.login, perfil:ID.perfil, equipe:ID.equipe, apelido:ID.dispositivo,
+               ultimoUso:new Date().toISOString(), app:APP_VERSION};
+    if(ja) await dbPut('dispositivos',{...ja,...rec}); else await dbAdd('dispositivos',rec);
+  }catch(e){ console.error(e); }
+}
+function pintarQuem(){
+  $('who').innerHTML = USUARIO ? `${esc(String(ID.nome).split(' ')[0])}<br>${esc(ID.equipe||NOME_PERFIL[ID.perfil]||'')}` : '';
+}
+function limparAparelho(){
+  confirmarSheet('Limpar este aparelho',
+    'Os lançamentos guardados aqui serão apagados <b>deste celular</b>. O que já foi enviado ao escritório continua lá. Continuar?',
+    async()=>{
+      for(const s of STORES) await dbClear(s);
+      localStorage.removeItem(CFG_KEY); localStorage.removeItem(FILA_KEY); localStorage.removeItem(PULL_KEY); localStorage.removeItem('fncapp_sessao');
+      location.reload();
+    });
+}
+function salvarAjustes(){
+  ID.equipe=$('a-eq').value; ID.dispositivo=$('a-disp').value.trim()||ID.dispositivo;
+  salvarCfg(); registrarDispositivo(); pintarQuem();
+  alerta('a-ok','Ajustes salvos.');
+}
+function salvarQualidade(){ ID.qualidade=parseInt($('a-qual').value)||1000; salvarCfg(); }
+
+/* ------------------------------ NAVEGAÇÃO ------------------------------- */
+let TELA='par';
+function ir(t){
+  if(t==='setup'){
+    document.querySelectorAll('.tela').forEach(e=>e.classList.remove('on'));
+    $('t-setup').classList.add('on'); $('nav').style.display='none';
+    $('st-url').value=SYNC.url||''; $('st-key').value=SYNC.key||'';
+    $('st-tab').value=SYNC.tabela||'funchal_registros'; $('st-org').value=SYNC.org||'FUNCHAL';
+    TELA='setup'; window.scrollTo(0,0); return;
+  }
+  if(t!=='login' && !pronto()) t='login';
+  if(t==='login'){ mostrarLogin(); TELA='login'; return; }
+  TELA=t;
+  document.querySelectorAll('.tela').forEach(e=>e.classList.remove('on'));
+  $('t-'+t).classList.add('on');
+  document.querySelectorAll('.nav div').forEach(e=>e.classList.remove('on'));
+  $('nv-'+t)?.classList.add('on');
+  $('nav').style.display = (t==='par') ? 'none' : 'grid';
+  window.scrollTo(0,0);
+  if(t==='inicio'){ inicioRender(); pintarFaixaAtualizacao(); }
+  if(t==='seq'){ ativarGPS(false); pintarGPS(); seqRender(); }
+  if(t==='meus') renderMeus();
+  if(t==='enviar') pintarEnvio();
+  if(t==='ajustes'){
+    $('a-usuario').innerHTML = USUARIO
+      ? `<b>${esc(USUARIO.nome)}</b><br><span style="font-size:12.5px;color:var(--text2)">
+         <span class="mono">${esc(USUARIO.login)}</span> · ${esc(NOME_PERFIL[USUARIO.perfil]||'')}</span>` : '—';
+    $('a-disp').value=ID.dispositivo; $('a-qual').value=String(ID.qualidade||1000);
+    pintarGpsAjustes();
+    preencherEquipes('a-eq'); $('a-eq').value=ID.equipe; pintarEnvio(); pintarVersao(); }
+
+}
+
+/* ------------------------------- LISTAS --------------------------------- */
+async function preencherListas(){
+  const [eqs,srvs,furos,eqps]=await Promise.all([dbGetAll('equipes'),dbGetAll('servicos'),
+                                                 dbGetAll('furos'),dbGetAll('equipamentos')]);
+  /* Os equipamentos vêm do escritório pela sincronização — aqui só se escolhe. */
+  window._eqps = eqps.map(q=>q.nome).sort((a,b)=>String(a).localeCompare(String(b)));
+  window._srvs = srvs.length ? srvs.map(s=>s.nome) : ['Recomposição de Capa Asfáltica'];
+  setSel('s-srv', window._srvs.map(s=>`<option>${esc(s)}</option>`).join(''));
+  preencherEquipes('a-eq'); preencherEquipes('s-eq');
+  const ruas=[...new Set(furos.map(f=>f.rua).filter(Boolean))].sort();
+  $('dl-ruas').innerHTML=ruas.map(r=>`<option value="${esc(r)}">`).join('');
+}
+async function preencherEquipes(id){
+  const eqs=await dbGetAll('equipes');
+  setSel(id, eqs.map(e=>`<option>${esc(e.nome)}</option>`).join('') || '<option>Equipe I</option>');
+  if(ID.equipe && [...$(id).options].some(o=>o.value===ID.equipe)) $(id).value=ID.equipe;
+}
+function setSel(id,html){ const el=$(id); if(!el)return; const a=el.value; el.innerHTML=html;
+  if(a && [...el.options].some(o=>o.value===a)) el.value=a; }
+
+/* ====================================================================== */
+/*        GPS, BÚSSOLA, ENDEREÇO, MAPA E CARIMBO DA FOTO                   */
+/* ====================================================================== */
+let HEADING = null;
+
+let BUSSOLA_LIGADA = false;
+function iniciarBussola(){
+  if(BUSSOLA_LIGADA) return;          /* uma escuta só: senão empilha a cada toque */
+  BUSSOLA_LIGADA = true;
+  const trata = e=>{
+    let g = null;
+    if(typeof e.webkitCompassHeading === 'number') g = e.webkitCompassHeading;
+    else if(typeof e.alpha === 'number') g = 360 - e.alpha;
+    if(g != null && isFinite(g)){ const antes = HEADING; HEADING = (g + 360) % 360;
+      if(antes == null) pintarGPS(); }
+  };
+  window.addEventListener('deviceorientationabsolute', trata, true);
+  window.addEventListener('deviceorientation', trata, true);
+}
+function pedirBussola(){
+  try{
+    if(window.DeviceOrientationEvent && typeof DeviceOrientationEvent.requestPermission === 'function')
+      DeviceOrientationEvent.requestPermission().then(r=>{ if(r === 'granted') iniciarBussola(); }).catch(()=>{});
+    else iniciarBussola();
+  }catch(e){ /* aparelho sem bússola: o carimbo sai sem a direção */ }
+}
+const CARDEAIS = ['N','NE','L','SE','S','SO','O','NO'];
+function cardinal(g){ return CARDEAIS[Math.round((g % 360) / 45) % 8]; }
+function grausTxt(g){ return (g == null) ? '' : `${Math.round(g)}° ${cardinal(g)}`; }
+
+let GPS_ULTIMO = null, GPS_ERRO = null, GPS_WATCH = null, GPS_LIGANDO = false;
+
+function gpsDePos(p){
+  /* Alguns aparelhos nao entregam a bussola para a pagina, mas mandam a
+     direcao do deslocamento junto com a posicao. Quando a bussola esta muda,
+     essa direcao ja e melhor do que carimbo nenhum. */
+  if(HEADING == null && p.coords.heading != null && isFinite(p.coords.heading)
+     && p.coords.speed != null && p.coords.speed > 0.6){
+    HEADING = (p.coords.heading + 360) % 360;
+  }
+  return {lat:p.coords.latitude, lng:p.coords.longitude,
+          alt:(p.coords.altitude!=null?Math.round(p.coords.altitude):null),
+          prec:(p.coords.accuracy!=null?Math.round(p.coords.accuracy):null),
+          quando:Date.now()};
+}
+/* O navegador diz se a localização está liberada, bloqueada ou ainda por
+   perguntar. Quando está bloqueada, nenhum código religa: só o dono do
+   aparelho, nos ajustes do navegador — por isso o passo a passo na tela. */
+let GPS_PERM = null;
+async function lerPermissaoGPS(){
+  try{
+    if(navigator.permissions && navigator.permissions.query){
+      const st = await navigator.permissions.query({name:'geolocation'});
+      GPS_PERM = st.state;                      /* granted | denied | prompt */
+      st.onchange = ()=>{ GPS_PERM = st.state; if(GPS_PERM==='granted') ativarGPS(false); else pintarGPS(); };
+    }
+  }catch(e){ GPS_PERM = null; }
+  return GPS_PERM;
+}
+function ehIOS(){ return /iPad|iPhone|iPod/.test(navigator.userAgent)
+  || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1); }
+function ehApp(){ return window.matchMedia('(display-mode: standalone)').matches
+  || window.navigator.standalone === true; }
+function abrirAjudaGPS(){
+  const dg = $('gps-diag'), ps = $('gps-passos');
+  if(dg) dg.innerHTML = `Endereço seguro (https): <b>${window.isSecureContext?'sim':'NÃO'}</b> ·
+    Permissão do site: <b>${GPS_PERM==='granted'?'liberada':GPS_PERM==='denied'?'bloqueada':GPS_PERM==='prompt'?'ainda não perguntada':'desconhecida'}</b>`;
+  const passos = [];
+  if(window.__TESTE_NATIVO){
+    /* dentro do aplicativo instalado: a permissão é do Android e a tela de
+       ajustes abre com um toque */
+    passos.push(`Toque no botão abaixo — ele abre direto a tela do aplicativo nos ajustes do celular.
+      Lá vá em <b>Permissões → Localização → Permitir durante o uso do app</b>.`);
+    passos.push(`Confira também se a <b>Localização do celular</b> está ligada, na barra de atalhos.`);
+    passos.push(`Volte e toque em <b>Já liberei — testar agora</b>.`);
+    if(ps) ps.innerHTML = '<ol style="padding-left:18px;margin:0">'
+      + passos.map(t=>`<li style="margin-bottom:10px">${t}</li>`).join('') + '</ol>'
+      + `<button class="btn o" style="margin-top:12px" onclick="AndroidTeste.abrirAjustes()">
+           <i class="ti ti-settings"></i>Abrir os ajustes do aplicativo</button>`;
+    $('ov-gps').style.display = 'flex';
+    return;
+  }
+  if(!window.isSecureContext){
+    passos.push(`<b>O app está aberto num endereço sem <span class="mono">https</span>.</b> Nenhum navegador
+      libera GPS assim. Abra o app pelo link publicado (que começa com <span class="mono">https://</span>) —
+      não pelo arquivo salvo no aparelho.`);
+  } else if(ehIOS()){
+    passos.push(`Na barra de endereço do Safari, toque em <b>aA</b> → <b>Configurações do Site</b> →
+      <b>Localização</b> → <b>Permitir</b>.`);
+    passos.push(`Nos ajustes do iPhone: <b>Ajustes → Privacidade e Segurança → Serviços de Localização</b>
+      (ligado) → <b>Safari</b> → <b>Ao Usar o App</b>.`);
+    passos.push(`Volte aqui e toque em <b>Já liberei — testar agora</b>.`);
+  } else {
+    if(ehApp()){
+      passos.push(`O app foi instalado na tela inicial, então não há cadeado para tocar.
+        Vá em <b>Ajustes do celular → Aplicativos → Funchal (ou Chrome) → Permissões →
+        Localização → Permitir durante o uso do app</b>.`);
+    } else {
+      passos.push(`Toque no <b>cadeado</b> (ou no ícone <b>ⓘ</b>) ao lado do endereço, no alto da tela →
+        <b>Permissões</b> (ou <i>Configurações do site</i>) → <b>Localização</b> → <b>Permitir</b>.`);
+    }
+    passos.push(`Confira também: <b>Ajustes do celular → Localização</b> ligada, e
+      <b>Aplicativos → Chrome → Permissões → Localização → Permitir durante o uso</b>.`);
+    passos.push(`Volte aqui e toque em <b>Já liberei — testar agora</b>. Se nada acontecer,
+      toque em <b>Recarregar o app</b>.`);
+  }
+  passos.push(`<span style="color:var(--text2)">Sem a localização o app continua funcionando: as fotos
+    saem carimbadas com data, hora e direção, só sem as coordenadas e o endereço.</span>`);
+  if(ps) ps.innerHTML = '<ol style="padding-left:18px;margin:0">'
+    + passos.map(t=>`<li style="margin-bottom:10px">${t}</li>`).join('') + '</ol>';
+  $('ov-gps').style.display = 'flex';
+}
+
+function gpsMotivo(){
+  if(!window.isSecureContext)
+    return {t:'O app está aberto por um endereço sem segurança (não é <b>https</b>). '
+             +'Os navegadores só liberam GPS e bússola em https — publique o app e abra pelo link.', fatal:true};
+  if(!navigator.geolocation) return {t:'Este aparelho não informa a localização.', fatal:true};
+  if(!GPS_ERRO) return null;
+  if(GPS_ERRO.code === 1) return {t:'A localização está <b>bloqueada</b> para este site — só dá para religar '
+                                    +'nos ajustes do navegador.', fatal:false, ajuda:true};
+  if(GPS_ERRO.code === 2) return {t:'Sem sinal de GPS no momento. Saia de baixo de cobertura e toque aqui para tentar de novo.', fatal:false};
+  if(GPS_ERRO.code === 3) return {t:'O GPS demorou para responder. Toque aqui para tentar de novo.', fatal:false};
+  return {t:esc(GPS_ERRO.message||'Falha na localização.'), fatal:false};
+}
+function pintarGPS(){
+  const el = $('s-gps'); if(!el) return;
+  const prob = gpsMotivo();
+  const fresco = GPS_ULTIMO && (Date.now()-GPS_ULTIMO.quando < 60000);
+  if(fresco && !prob){
+    el.className = 'gpsbar ok';
+    el.innerHTML = `<i class="ti ti-map-pin-check"></i><div><b>GPS ativo</b>
+      Precisão de ${GPS_ULTIMO.prec!=null?GPS_ULTIMO.prec+' m':'—'}${HEADING!=null?' · bússola '+grausTxt(HEADING):''}.
+      As fotos saem carimbadas com a localização.</div>`;
+  } else if(prob){
+    const bloqueado = prob.ajuda || GPS_PERM==='denied' || prob.fatal;
+    el.className = 'gpsbar ruim';
+    el.innerHTML = `<i class="ti ti-map-pin-off"></i><div><b>As fotos vão sair sem localização</b>
+      ${prob.t}
+      ${bloqueado ? '<span class="acao" onclick="event.stopPropagation();abrirAjudaGPS()">Ver como liberar</span>'
+                  : '<span class="acao">Tentar ativar o GPS</span>'}</div>`;
+  } else {
+    el.className = 'gpsbar esperando';
+    el.innerHTML = `<i class="ti ti-current-location"></i><div><b>${GPS_LIGANDO?'Procurando o sinal de GPS...':'GPS não ativado'}</b>
+      ${GPS_LIGANDO?'Deixe o aparelho a céu aberto por alguns segundos.':'Toque para ligar a localização e a bússola.'}
+      <span class="acao">${GPS_LIGANDO?'Tentar de novo':'Ativar GPS e bússola'}</span></div>`;
+  }
+}
+/* Precisa nascer de um toque: é a única forma de o iPhone liberar a bússola. */
+async function ativarGPS(porToque){
+  GPS_ERRO = null;
+  /* A bussola tem de ser ligada sempre, nao so no toque: era por isso que
+     todas as fotos saiam sem a direcao. No iPhone o pedido de permissao so
+     vale se nascer de um toque — la o toque na barra continua sendo o
+     caminho, e a chamada sem toque apenas nao faz efeito. */
+  pedirBussola();
+  if(!window.isSecureContext || !navigator.geolocation){ pintarGPS(); if(porToque) abrirAjudaGPS(); return; }
+  await lerPermissaoGPS();
+  if(GPS_PERM === 'denied'){
+    GPS_ERRO = {code:1}; GPS_LIGANDO = false; pintarGPS();
+    if(porToque && $('ov-gps').style.display!=='flex') abrirAjudaGPS();
+    return;
+  }
+  if($('ov-gps')) $('ov-gps').style.display = 'none';
+  GPS_LIGANDO = true; pintarGPS();
+  if(GPS_WATCH != null){ try{ navigator.geolocation.clearWatch(GPS_WATCH); }catch(e){} }
+  GPS_WATCH = navigator.geolocation.watchPosition(
+    p=>{ GPS_ULTIMO = gpsDePos(p); GPS_ERRO = null; GPS_LIGANDO = false; GPS_PERM = 'granted';
+         if($('ov-gps')) $('ov-gps').style.display='none'; pintarGPS(); },
+    e=>{ GPS_ERRO = e; GPS_LIGANDO = false; if(e && e.code===1) GPS_PERM='denied'; pintarGPS(); },
+    {enableHighAccuracy:true, timeout:20000, maximumAge:5000});
+}
+/* Na hora da foto: usa a posição recente do rastreio; se não houver,
+   pede uma na hora, e ainda tenta em baixa precisão antes de desistir. */
+function gpsAgora(espera){
+  /* Voltando da camera o aparelho costuma demorar a devolver o primeiro
+     ponto. Por isso a espera e generosa: e melhor a foto sair dois segundos
+     depois, com a localizacao, do que sair na hora sem ela. */
+  const teto = espera || 20000;
+  if(GPS_ULTIMO && (Date.now()-GPS_ULTIMO.quando) < 25000) return Promise.resolve(GPS_ULTIMO);
+  return new Promise(res=>{
+    if(!window.isSecureContext || !navigator.geolocation){ pintarGPS(); return res(null); }
+    /* O rastreio continua correndo em paralelo: se ele chegar primeiro, vale. */
+    let pronto = false;
+    const entregar = g=>{ if(pronto) return; pronto = true; pintarGPS(); res(g); };
+    const relogio = setInterval(()=>{
+      if(GPS_ULTIMO && (Date.now()-GPS_ULTIMO.quando) < 25000){ clearInterval(relogio); entregar(GPS_ULTIMO); }
+    }, 700);
+    const fim = ()=>{ clearInterval(relogio); };
+    navigator.geolocation.getCurrentPosition(
+      p=>{ GPS_ULTIMO = gpsDePos(p); GPS_ERRO = null; fim(); entregar(GPS_ULTIMO); },
+      ()=>{
+        navigator.geolocation.getCurrentPosition(
+          p=>{ GPS_ULTIMO = gpsDePos(p); GPS_ERRO = null; fim(); entregar(GPS_ULTIMO); },
+          e=>{ GPS_ERRO = e; fim(); entregar(GPS_ULTIMO && (Date.now()-GPS_ULTIMO.quando)<120000 ? GPS_ULTIMO : null); },
+          {enableHighAccuracy:false, timeout:teto, maximumAge:60000});
+      },
+      {enableHighAccuracy:true, timeout:teto, maximumAge:5000});
+  });
+}
+function grausMinSeg(v, eixo){
+  if(v == null) return '';
+  const neg = v < 0; v = Math.abs(v);
+  const g = Math.floor(v), m = Math.floor((v-g)*60), s = Math.round((((v-g)*60)-m)*60);
+  const dir = eixo === 'lat' ? (neg?'S':'N') : (neg?'O':'L');
+  return `${g}°${String(m).padStart(2,'0')}'${String(s).padStart(2,'0')}" ${dir}`;
+}
+const MESES = ['jan.','fev.','mar.','abr.','mai.','jun.','jul.','ago.','set.','out.','nov.','dez.'];
+function dataCarimbo(iso){
+  const d = new Date(iso);
+  const p = n=>String(n).padStart(2,'0');
+  return `${p(d.getDate())} de ${MESES[d.getMonth()]} de ${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}
+
+/* Endereço pelo OpenStreetMap, com cache por coordenada arredondada e
+   um pedido por vez — a política do serviço não permite rajadas. */
+async function buscarEndereco(lat,lng){
+  const chave = lat.toFixed(4)+','+lng.toFixed(4);
+  let cache = {};
+  try{ cache = JSON.parse(localStorage.getItem('fncapp_end')||'{}'); }catch(e){}
+  if(cache[chave]) return cache[chave];
+  const espera = Math.max(0, 1300 - (Date.now() - (window._ultGeo||0)));
+  if(espera) await new Promise(r=>setTimeout(r, espera));
+  window._ultGeo = Date.now();
+  const r = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&addressdetails=1&accept-language=pt-BR&lat=${lat}&lon=${lng}`);
+  if(!r.ok) throw new Error('Endereço HTTP '+r.status);
+  const j = await r.json(), a = j.address || {};
+  const end = {
+    numero: a.house_number || '',
+    rua:    a.road || a.pedestrian || a.residential || a.footway || '',
+    bairro: a.suburb || a.neighbourhood || a.city_district || a.quarter || '',
+    cidade: a.city || a.town || a.municipality || a.village || '',
+    uf:     a.state || ''
+  };
+  cache[chave] = end;
+  try{ localStorage.setItem('fncapp_end', JSON.stringify(cache)); }catch(e){}
+  return end;
+}
+function tileXY(lat,lng,z){
+  const n = Math.pow(2,z);
+  const x = Math.floor((lng+180)/360*n);
+  const r = lat*Math.PI/180;
+  const y = Math.floor((1 - Math.log(Math.tan(r)+1/Math.cos(r))/Math.PI)/2*n);
+  return {x,y,z};
+}
+function carregarImg(src, cors){
+  return new Promise((ok,no)=>{
+    const i = new Image();
+    if(cors) i.crossOrigin = 'anonymous';
+    i.onload = ()=>ok(i);
+    i.onerror = ()=>no(new Error('imagem'));
+    i.src = src;
+  });
+}
+async function miniMapa(lat,lng){
+  const chave = lat.toFixed(3)+','+lng.toFixed(3);
+  if(!window._tiles) window._tiles = {};
+  if(window._tiles[chave]) return window._tiles[chave];
+  const t = tileXY(lat,lng,16);
+  const img = await carregarImg(`https://tile.openstreetmap.org/${t.z}/${t.x}/${t.y}.png`, true);
+  const cv = document.createElement('canvas'); cv.width = 256; cv.height = 256;
+  const cx = cv.getContext('2d'); cx.drawImage(img,0,0);
+  /* alfinete no centro do quadro */
+  cx.fillStyle = '#D32F2F'; cx.strokeStyle = '#fff'; cx.lineWidth = 3;
+  cx.beginPath(); cx.arc(128,128,13,0,Math.PI*2); cx.fill(); cx.stroke();
+  const url = cv.toDataURL('image/jpeg',0.8);
+  window._tiles[chave] = url;
+  return url;
+}
+
+/* Desenha o carimbo por cima da foto: bússola, mapa e o bloco de dados. */
+async function carimbar(dataUrl, m){
+  const img = await carregarImg(dataUrl);
+  const W = img.width, H = img.height;
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const cx = cv.getContext('2d');
+  cx.drawImage(img,0,0);
+  const k  = W/1000;
+  const pad = Math.round(14*k);
+  const fs  = Math.max(11, Math.round(21*k));
+
+  /* --- bloco de texto, embaixo à direita --- */
+  const linhas = [];
+  linhas.push({t: dataCarimbo(m.dataHora), g: true});
+  if(m.direcao) linhas.push({t: m.direcao, g:true});
+  const e = m.endereco || {};
+  const l1 = [e.numero, e.rua].filter(Boolean).join(' ');
+  if(l1) linhas.push({t:l1});
+  if(e.bairro) linhas.push({t:e.bairro});
+  if(e.cidade) linhas.push({t:e.cidade});
+  if(e.uf)     linhas.push({t:e.uf});
+  if(m.lat != null) linhas.push({t: grausMinSeg(m.lat,'lat')+'  '+grausMinSeg(m.lng,'lng')});
+  if(m.alt != null) linhas.push({t: m.alt+' m'});
+  if(m.indice)      linhas.push({t:'Número do índice: '+m.indice});
+
+  const alturaLinha = Math.round(fs*1.32);
+  const alturaTexto = linhas.length*alturaLinha;
+  const baseY = H - pad - alturaTexto + alturaLinha*0.78;
+
+  /* faixa escurecida para o texto sempre ficar legível */
+  const grad = cx.createLinearGradient(0, H - alturaTexto - pad*2.2, 0, H);
+  grad.addColorStop(0,'rgba(0,0,0,0)'); grad.addColorStop(1,'rgba(0,0,0,.55)');
+  cx.fillStyle = grad;
+  cx.fillRect(0, H - alturaTexto - pad*2.2, W, alturaTexto + pad*2.2);
+
+  cx.textAlign = 'right';
+  cx.shadowColor = 'rgba(0,0,0,.85)'; cx.shadowBlur = Math.round(5*k);
+  linhas.forEach((ln,i)=>{
+    cx.font = `${ln.g?'bold ':''}${fs}px Arial, sans-serif`;
+    cx.fillStyle = '#fff';
+    cx.fillText(ln.t, W - pad, baseY + i*alturaLinha);
+  });
+  cx.shadowBlur = 0;
+
+  /* --- mini mapa, embaixo à esquerda --- */
+  if(m.mapa){
+    try{
+      const mp = await carregarImg(m.mapa);
+      const lado = Math.round(W*0.20);
+      const x = pad, y = H - pad - lado;
+      cx.save();
+      cx.beginPath(); cx.rect(x,y,lado,lado); cx.clip();
+      cx.drawImage(mp, x, y, lado, lado);
+      cx.restore();
+      cx.strokeStyle = 'rgba(255,255,255,.9)'; cx.lineWidth = Math.max(2,Math.round(3*k));
+      cx.strokeRect(x,y,lado,lado);
+    }catch(err){ /* sem mapa: o carimbo continua válido */ }
+  }
+
+  /* --- bússola, em cima à esquerda --- */
+  if(m.heading != null){
+    const r = Math.round(W*0.055), cxp = pad + r, cyp = pad + r;
+    cx.save();
+    cx.globalAlpha = .92;
+    cx.beginPath(); cx.arc(cxp,cyp,r,0,Math.PI*2);
+    cx.fillStyle = 'rgba(255,255,255,.85)'; cx.fill();
+    cx.strokeStyle = '#1b3b6f'; cx.lineWidth = Math.max(2,Math.round(3*k)); cx.stroke();
+    cx.translate(cxp,cyp); cx.rotate(-m.heading*Math.PI/180);
+    cx.beginPath(); cx.moveTo(0,-r*0.78); cx.lineTo(r*0.30,r*0.30); cx.lineTo(0,r*0.10); cx.lineTo(-r*0.30,r*0.30);
+    cx.closePath(); cx.fillStyle = '#1b7fd4'; cx.fill();
+    cx.restore();
+    cx.textAlign = 'center'; cx.fillStyle = '#12325c';
+    cx.font = `bold ${Math.round(fs*0.8)}px Arial, sans-serif`;
+    cx.fillText('N', cxp, cyp - r - Math.round(3*k));
+  }
+  return cv.toDataURL('image/jpeg', 0.72);
+}
+
+/* ====================================================================== */
+/*                     ENVIO DAS IMAGENS PARA O STORAGE                    */
+/* ====================================================================== */
+function stCaminho(fo){
+  /* Uma pasta por relatório: mantém as fotos do mesmo dia/equipe juntas. */
+  const rel = String(fo.relatorioUid || 'sem-relatorio').slice(-16);
+  return `${rel}/furo-${String(fo.furoNum).padStart(3,'0')}-${fo.tipo}.jpg`;
+}
+/* Miniatura: a mesma foto carimbada, mas estreita. É ela que o escritório
+   mostra na lista, na galeria e no documento — onde a foto sai com poucos
+   centímetros e ninguém precisa dos 1000 pixels. Pesa perto de um décimo da
+   original, e é o que segura a conta de tráfego da nuvem: um dia de trabalho
+   tem mil fotos, e cada vez que alguém abre o relatório elas descem de novo. */
+function stCaminhoMini(fo){
+  const rel = String(fo.relatorioUid || 'sem-relatorio').slice(-16);
+  return `${rel}/furo-${String(fo.furoNum).padStart(3,'0')}-${fo.tipo}-mini.jpg`;
+}
+const MINI_LARGURA = 480;   /* a 47 mm no papel dá ~260 pontos por polegada */
+function stUrlPublica(caminho){
+  return (SYNC.url||'').replace(/\/+$/,'') + '/storage/v1/object/public/' + BUCKET + '/' + caminho;
+}
+function dataUrlParaBlob(d){
+  const [cab, b64] = d.split(',');
+  const tipo = (cab.match(/:(.*?);/)||[])[1] || 'image/jpeg';
+  const bin = atob(b64), arr = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], {type:tipo});
+}
+/* Reduz uma imagem já pronta (data URL) sem passar de novo pelo arquivo. */
+function encolher(dataUrl, larguraMax, q){
+  return new Promise((res, rej)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      let w = img.width, h = img.height;
+      if(w > larguraMax){ h = Math.round(h*larguraMax/w); w = larguraMax; }
+      const cv = document.createElement('canvas');
+      cv.width = w; cv.height = h;
+      const cx = cv.getContext('2d');
+      cx.fillStyle = '#fff'; cx.fillRect(0,0,w,h);
+      cx.drawImage(img, 0, 0, w, h);
+      res(cv.toDataURL('image/jpeg', q || 0.66));
+    };
+    img.onerror = ()=>rej(new Error('imagem inválida'));
+    img.src = dataUrl;
+  });
+}
+async function stEnviar(caminho, dataUrl){
+  const r = await fetch((SYNC.url||'').replace(/\/+$/,'')+'/storage/v1/object/'+BUCKET+'/'+caminho, {
+    method:'POST',
+    headers:{apikey:SYNC.key, Authorization:'Bearer '+SYNC.key, 'x-upsert':'true', 'Content-Type':'image/jpeg'},
+    body: dataUrlParaBlob(dataUrl)
+  });
+  if(!r.ok) throw new Error('Envio da foto: HTTP '+r.status+' '+(await r.text()).slice(0,110));
+  return stUrlPublica(caminho);
+}
+
+/* ====================================================================== */
+/*                        SEQUÊNCIA DO DIA                                 */
+/* ====================================================================== */
+let SEQ_TIPO = null, SEQ_FURO = null;
+
+/* ===================== RELATÓRIO DO DIA =====================
+   A unidade de trabalho é o RELATÓRIO: um por dia e por equipe.
+   Todos os furos lançados caem dentro dele e o Concluir gera um único
+   documento com todas as fotos. Terminado um, o apontador toca em
+   "Gerar novo relatório" e começa outro (outra equipe, outra frente). */
+let REL_ATUAL = null;
+function relSlug(t){ return String(t||'sem-equipe').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+  .toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'') || 'sem-equipe'; }
+function relUid(data, equipe, seq){ return `rel_${data}_${relSlug(equipe)}_${seq}`; }
+function relCod(r){
+  const d = String(r.data||'').split('-');
+  return 'R' + (d[2]||'') + (d[1]||'') + (d[0]||'').slice(2) + '-' + (r.seq||1);
+}
+/* Relatórios do dia+equipe escolhidos na tela, em ordem */
+async function relDoDia(data, equipe){
+  const todos = await dbGetAll('relatorios');
+  return todos.filter(r=>r.data===data && (r.equipe||'')===(equipe||'') && !r.deletado)
+              .sort((a,b)=>(a.seq||0)-(b.seq||0));
+}
+/* Relatório do dia/equipe que o escritório ainda NÃO validou.
+   Enquanto o documento anterior não é conferido e validado, o app não abre
+   outro: era abrindo documento novo que as fotos do DEPOIS viravam furos
+   novos (1, 2, 3...) em vez de completar os furos do ANTES, e o escritório
+   recebia o relatório quebrado. Um documento por vez, fechado pela
+   validação — depois disso o próximo pode começar. */
+async function relNaoValidado(data, equipe){
+  const lista = await relDoDia(data, equipe);
+  if(!lista.length) return null;
+  const furos = await dbGetAll('furos');
+  const fotos = await dbGetAll('fotos');
+  const temDepois = new Set(fotos.filter(f=>f.tipo==='depois').map(f=>f.furoUid));
+  const temAntes  = new Set(fotos.filter(f=>f.tipo==='antes').map(f=>f.furoUid));
+  for(const r of lista){
+    const dele = furos.filter(f=>f.relatorioUid===r.uid);
+    if(!dele.length) continue;                       /* documento vazio não tranca */
+    const sit = relSituacao(dele, r);
+    if(sit === 'Validado') continue;                 /* esse já está fechado */
+    return {
+      rel: r, situacao: sit, total: dele.length,
+      pendentes: dele.filter(f=>f.status!=='Validado').length,
+      devolvidos: dele.filter(f=>f.status==='Devolvido').length,
+      semDepois: dele.filter(f=>temAntes.has(f.uid) && !temDepois.has(f.uid)).length
+    };
+  }
+  return null;
+}
+/* O que a tela diz sobre o documento que está trancando a abertura de outro. */
+function relPorqueTrancado(p){
+  const partes = [];
+  if(p.semDepois)  partes.push(`<b>${p.semDepois}</b> buraco(s) ainda esperando a foto do <b>Depois</b>`);
+  if(p.devolvidos) partes.push(`<b>${p.devolvidos}</b> buraco(s) <b>devolvidos para correção</b>`);
+  const val = p.total - p.pendentes;
+  partes.push(`<b>${val}</b> de <b>${p.total}</b> buraco(s) validados pelo escritório`);
+  return partes.join(' · ');
+}
+/* Acha o relatório aberto do dia/equipe; cria quando for preciso. */
+async function relAtualDoDia(criar){
+  const data = $('s-data').value, equipe = $('s-eq').value || ID.equipe || '';
+  if(!data) return null;
+  const lista = await relDoDia(data, equipe);
+  if(REL_ATUAL){
+    const ainda = lista.find(r=>r.uid===REL_ATUAL.uid);
+    if(ainda) return (REL_ATUAL = ainda);
+  }
+  const aberto = lista.filter(r=>r.status!=='Concluído').pop();
+  if(aberto) return (REL_ATUAL = aberto);
+  /* Todos concluídos, mas o escritório ainda não validou: retoma aquele.
+     Só depois da validação é que um documento novo pode ser aberto. */
+  const pend = await relNaoValidado(data, equipe);
+  if(pend){
+    await relGravar(pend.rel.uid, {status:'Aberto'});
+    const atual = (await relDoDia(data, equipe)).find(r=>r.uid===pend.rel.uid) || pend.rel;
+    REL_ATUAL = atual;
+    alerta('s-aviso', `Retomando o relatório <b>${esc(relCod(atual))}</b> — ele ainda não foi
+      validado pelo escritório: ${relPorqueTrancado(pend)}.
+      ${pend.semDepois ? 'Toque no quadro vazio de cada buraco para a foto do <b>Depois</b>. ' : ''}
+      O próximo documento só abre depois que este for validado.`, 0);
+    return atual;
+  }
+  const ultimo = lista[lista.length-1];
+  if(ultimo && !criar) return (REL_ATUAL = ultimo);
+  if(!criar) return (REL_ATUAL = null);
+  return await relCriar(data, equipe);
+}
+async function relCriar(data, equipe){
+  const lista = await relDoDia(data, equipe);
+  const seq = (lista.reduce((a,r)=>Math.max(a, r.seq||0), 0)) + 1;
+  const novo = {
+    uid: relUid(data, equipe, seq), seq, data, equipe,
+    rua: $('s-rua') ? $('s-rua').value.trim() : '', servico: $('s-srv') ? $('s-srv').value : '',
+    status: 'Aberto', criadoEm: new Date().toISOString(), concluidoEm: '', concluidoPor: '',
+    corrigido: false, corrigidoPor: '', corrigidoEm: '', correcaoNota: '', conferido: false,
+    origem: 'mobile', dispositivo: ID.dispositivo, lancadoPor: ID.nome, lancadoLogin: ID.login
+  };
+  await dbPut('relatorios', novo);
+  REL_ATUAL = novo;
+  return novo;
+}
+async function relGravar(uid, campos){
+  const todos = await dbGetAll('relatorios');
+  const r = todos.find(x=>x.uid===uid); if(!r) return null;
+  const novo = {...r, ...campos};
+  await dbPut('relatorios', novo);
+  if(REL_ATUAL && REL_ATUAL.uid===uid) REL_ATUAL = novo;
+  return novo;
+}
+/* Furos antigos (lançados antes dos relatórios) ganham o relatório do
+   dia/equipe deles — o uid é o mesmo nos dois aparelhos, então não duplica. */
+async function relMigrar(){
+  const furos = await dbGetAll('furos');
+  const existentes = await dbGetAll('relatorios');
+  const jaTem = new Set(existentes.map(r=>r.uid));
+  const orfaos = furos.filter(f=>f.data && (!f.relatorioUid || !jaTem.has(f.relatorioUid)));
+  if(!orfaos.length) return;
+  for(const f of orfaos){
+    const eq = f.equipe || '';
+    const uid = f.relatorioUid || relUid(f.data, eq, 1);
+    const seq = parseInt(String(uid).split('_').pop()) || 1;
+    if(!jaTem.has(uid)){
+      await dbPut('relatorios', {
+        uid, seq, data:f.data, equipe:eq, rua:f.rua||'', servico:f.servico||'', status:'Aberto', criadoEm:f.criadoEm||new Date().toISOString(),
+        concluidoEm:'', concluidoPor:'', corrigido:false, corrigidoPor:'', corrigidoEm:'', correcaoNota:'',
+        conferido:false, origem:f.origem||'mobile', dispositivo:f.dispositivo||'', lancadoPor:f.lancadoPor||''
+      });
+      jaTem.add(uid);
+    }
+    await dbPut('furos', {...f, relatorioUid:uid});
+  }
+}
+
+/* Os furos da tela são os do relatório aberto. */
+async function seqFuros(){
+  const todos = await dbGetAll('furos');
+  if(!REL_ATUAL) return [];
+  return todos.filter(f=>f.relatorioUid===REL_ATUAL.uid)
+              .sort((a,b)=>(parseInt(a.num)||0)-(parseInt(b.num)||0));
+}
+async function relFuros(uid){
+  const todos = await dbGetAll('furos');
+  return todos.filter(f=>f.relatorioUid===uid).sort((a,b)=>(parseInt(a.num)||0)-(parseInt(b.num)||0));
+}
+async function seqFotosDe(furoUid){
+  const fs = await dbGetAll('fotos');
+  return fs.filter(x=>x.furoUid===furoUid);
+}
+async function seqAddFuro(){
+  limpa('s-err','s-ok');
+  if(!$('s-data').value){ alerta('s-err','Informe a data do serviço.'); return; }
+  const rel = await relAtualDoDia(true);
+  if(rel && rel.status==='Concluído') await relGravar(rel.uid, {status:'Aberto'});
+  const doRel = await relFuros(REL_ATUAL.uid);
+  const num = doRel.reduce((a,f)=>Math.max(a, parseInt(f.num)||0), 0) + 1;
+  await dbAdd('furos', {
+    relatorioUid:REL_ATUAL.uid,
+    num, data:$('s-data').value,
+    rua:$('s-rua').value.trim(), servico:$('s-srv').value, equipe:$('s-eq').value||ID.equipe,
+    comp:'', larg:'', prof:'', equipamento:'',
+    origem:'mobile', dispositivo:ID.dispositivo, lancadoPor:ID.nome, lancadoLogin:ID.login,
+    status:'Pendente', validadoPor:'', validadoEm:'', motivoDevolucao:''
+  });
+  await seqRender();
+  const el = document.querySelector('#s-lista .fcard-furo:last-child');
+  if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+}
+async function seqSetCampo(uid, campo, valor){
+  const todos = await dbGetAll('furos');
+  const f = todos.find(x=>x.uid===uid); if(!f) return;
+  await dbPut('furos', {...f, [campo]: valor});
+}
+function seqExcluirFuro(uid, num){
+  confirmarSheet('Excluir buraco '+num,
+    'O buraco e as fotos dele saem deste aparelho <b>e do escritório</b> na próxima sincronização. Não dá para desfazer.',
+    async()=>{
+      const todos = await dbGetAll('furos');
+      const f = todos.find(x=>x.uid===uid);
+      const fts = await seqFotosDe(uid);
+      for(const ft of fts){
+        const imgs = await dbGetAll('imagens');
+        const im = imgs.find(i=>i.fotoUid===ft.uid);
+        if(im) await _rawDel('imagens', im.id);
+        await _rawDel('fotos', ft.id);
+        fila('fotos', ft.uid, true);
+      }
+      if(f){ await _rawDel('furos', f.id); fila('furos', f.uid, true); }
+      await seqRender();
+      if(navigator.onLine && conectado()) sincronizar(true);
+    });
+}
+/* apagar um relatório inteiro, com os furos e as fotos dele */
+function excluirRelatorio(uid){
+  confirmarSheet('Excluir relatório',
+    'O relatório, os buracos e as fotos dele são apagados neste aparelho <b>e no escritório</b> na próxima sincronização. Não dá para desfazer.',
+    async()=>{
+      const furos = await relFuros(uid);
+      for(const f of furos){
+        for(const ft of await seqFotosDe(f.uid)){
+          const imgs = await dbGetAll('imagens');
+          const im = imgs.find(i=>i.fotoUid===ft.uid);
+          if(im) await _rawDel('imagens', im.id);
+          await _rawDel('fotos', ft.id); fila('fotos', ft.uid, true);
+        }
+        await _rawDel('furos', f.id); fila('furos', f.uid, true);
+      }
+      const rels = await dbGetAll('relatorios');
+      const r = rels.find(x=>x.uid===uid);
+      if(r){ await _rawDel('relatorios', r.id); fila('relatorios', uid, true); }
+      if(REL_ATUAL && REL_ATUAL.uid===uid) REL_ATUAL = null;
+      await renderMeus();
+      if(TELA==='seq') await seqRender();
+      alerta('m-ok','Relatório excluído.');
+      if(navigator.onLine && conectado()) sincronizar(true);
+    });
+}
+
+/* Captura: tira a foto, pega GPS/bússola, busca o endereço se houver
+   internet e já grava a versão carimbada. */
+function seqTirar(furoUid, tipo){
+  SEQ_FURO = furoUid; SEQ_TIPO = tipo;
+  $('seq-file').value = '';
+  $('seq-file').click();
+}
+/* Uma foto recém-tirada chega com a data de agora. Uma foto escolhida da galeria
+   chega com a data do dia em que foi tirada. Quinze minutos de folga cobrem
+   aparelho devagar e câmera que demora a gravar o arquivo. */
+const JANELA_FOTO_MIN = 15;
+function fotoDeAgora(arq){
+  const t = arq && arq.lastModified;
+  if(!t) return true;                    /* sem data: não dá para julgar, aceita */
+  const minutos = (Date.now() - t) / 60000;
+  return minutos <= JANELA_FOTO_MIN && minutos >= -JANELA_FOTO_MIN;
+}
+async function seqRecebeuFoto(input){
+  const arq = input.files[0]; if(!arq) return;
+  const furoUid = SEQ_FURO, tipo = SEQ_TIPO;
+  input.value = '';
+  /* Só entra foto tirada na hora. No aplicativo instalado a galeria nem é
+     oferecida (o Android abre a câmera direto); no navegador, alguns aparelhos
+     ainda deixam escapar a galeria — aqui a foto antiga é recusada. */
+  if(!fotoDeAgora(arq)){
+    alerta('s-aviso','Só é aceita <b>foto tirada na hora</b>. Toque de novo no quadro e use a câmera.', 0);
+    await seqRender();
+    return;
+  }
+  const todos = await dbGetAll('furos');
+  const furo = todos.find(x=>x.uid===furoUid); if(!furo) return;
+  seqMarcarOcupado(furoUid, tipo, 'Processando...');
+  try{
+    const original = await comprimir(arq, ID.qualidade||1000, 0.7);
+    seqMarcarOcupado(furoUid, tipo, 'Pegando a localização...');
+    let gps = await gpsAgora(20000);
+    /* Sem ponto na primeira tentativa: o relatório vale muito menos sem
+       coordenada, então o app insiste uma vez e, se ainda assim não vier,
+       pergunta em vez de guardar caladamente uma foto sem localização. */
+    if(!gps){
+      ativarGPS(false);
+      seqMarcarOcupado(furoUid, tipo, 'Procurando o sinal...');
+      gps = await gpsAgora(25000);
+    }
+    if(!gps){
+      const prob0 = gpsMotivo();
+      const seguir = await perguntaSheet(
+        'Esta foto vai sair sem localização',
+        `${prob0?prob0.t:'O GPS não respondeu a tempo.'}<br><br>
+         Saia de baixo de laje ou cobertura, confira se a <b>Localização</b> do celular
+         está ligada e tente de novo. Sem coordenada o relatório perde valor de prova.`,
+        'Tentar pegar a localização', 'Guardar assim mesmo');
+      if(seguir){
+        ativarGPS(false);
+        seqMarcarOcupado(furoUid, tipo, 'Procurando o sinal...');
+        gps = await gpsAgora(30000);
+      }
+    }
+    seqMarcarOcupado(furoUid, tipo, 'Processando...');
+    const meta = {
+      dataHora:new Date().toISOString(),
+      lat:gps&&gps.lat, lng:gps&&gps.lng, alt:gps&&gps.alt, precisao:gps&&gps.prec,
+      heading:HEADING, direcao:grausTxt(HEADING),
+      indice: Date.now().toString().slice(-6),
+      endereco:null, mapa:null
+    };
+    let enderecoOk = false;
+    if(gps && navigator.onLine){
+      try{ meta.endereco = await buscarEndereco(gps.lat, gps.lng); enderecoOk = true; }catch(e){ console.warn('sem endereço', e); }
+      try{ meta.mapa = await miniMapa(gps.lat, gps.lng); }catch(e){ console.warn('sem mapa', e); }
+    }
+    if(!gps){
+      const prob = gpsMotivo();
+      alerta('s-aviso', `Foto guardada <b>sem localização</b>. ${prob?prob.t:'O GPS não respondeu.'}`, 0);
+    } else limpa('s-aviso');
+    const carimbada = await carimbar(original, meta);
+
+    const fotosDoFuro = await seqFotosDe(furoUid);
+    const ja = fotosDoFuro.find(x=>x.tipo===tipo);
+    const registro = {
+      relatorioUid:furo.relatorioUid, furoUid, furoNum:furo.num, tipo,
+      rotulo:`Buraco ${furo.num} ${fotoRot(tipo)}`,
+      dataHora:meta.dataHora, lat:meta.lat, lng:meta.lng, alt:meta.alt, precisao:meta.precisao,
+      heading:meta.heading, direcao:meta.direcao, indice:meta.indice,
+      endereco:meta.endereco, enderecoOk, temMapa:!!meta.mapa,
+      enviada:false, url:'', arquivo:'',
+      lancadoPor:ID.nome, dispositivo:ID.dispositivo
+    };
+    registro.arquivo = stCaminho(registro);
+    let fotoUid;
+    if(ja){ registro.uid = ja.uid; registro.id = ja.id; await dbPut('fotos', registro); fotoUid = ja.uid; }
+    else { await dbAdd('fotos', registro); fotoUid = (await seqFotosDe(furoUid)).find(x=>x.tipo===tipo).uid; }
+
+    const imgs = await dbGetAll('imagens');
+    const antiga = imgs.find(i=>i.fotoUid===fotoUid);
+    const linha = {fotoUid, original, carimbada, completa:enderecoOk};
+    if(antiga) await _rawPut('imagens', {...antiga, ...linha});
+    else await _rawAdd('imagens', linha);
+
+    await seqRender();
+    /* Foto guardada: se o buraco ainda não tem medida, o app pede agora. */
+    const depois = (await dbGetAll('furos')).find(x=>x.uid===furoUid);
+    if(depois && !medArea(depois)) medSheetAbrir(furoUid);
+  }catch(err){
+    console.error(err);
+    alerta('s-err','Não deu para guardar a foto: '+esc(err.message||err));
+    await seqRender();
+  }
+}
+function seqMarcarOcupado(furoUid, tipo, txt){
+  const el = document.querySelector(`[data-slot="${furoUid}|${tipo}"]`);
+  if(el) el.innerHTML = `<i class="ti ti-loader-2"></i><div class="rot">${esc(txt)}</div>`;
+}
+
+/* As medidas (largura, comprimento, espessura) e a observação saíram da tela do
+   campo: quem está na rua tira as duas fotos e pronto. As medidas passaram a ser
+   lançadas no escritório, ao conferir o relatório. Os campos continuam existindo
+   no registro da foto — só não são mais preenchidos aqui. */
+/* ==================== AS FOTOS DE UM BURACO ============================
+   Duas são obrigatórias — ANTES e CONCLUÍDO. O + acrescenta até duas fotos
+   de DURANTE, e aí o buraco fecha com quatro. É a mesma ordem que sai no
+   quadro do relatório. */
+const FOTO_TIPOS = ['antes','durante1','durante2','depois'];
+const FOTO_ROTULO = {antes:'Antes', durante1:'Durante', durante2:'Durante', depois:'Concluído'};
+const FOTO_CURTO  = {antes:'ANTES', durante1:'DURANTE', durante2:'DURANTE', depois:'CONCLUÍDO'};
+const FOTO_OBRIGATORIAS = ['antes','depois'];
+function fotoRot(t){ return FOTO_ROTULO[t] || t; }
+
+/* ====================== MEDIÇÃO POR BURACO (campo) =====================
+   A equipe mede o buraco na rua e digita os três números aqui. O escritório
+   recebe pela sincronização e fecha o valor com o preço do serviço — quem
+   está na rua não vê nem digita dinheiro. */
+function medNum(v){
+  const n = parseFloat(String(v==null?'':v).replace(',','.'));
+  return (isFinite(n) && n>0) ? n : 0;
+}
+function medArea(f){ return medNum(f.comp) * medNum(f.larg); }
+function medVolume(f){ return medArea(f) * medNum(f.prof); }
+function medBR(v, casas){
+  return Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:casas, maximumFractionDigits:casas});
+}
+function medLer(uid){
+  const p = c => (document.querySelector(`[data-med="${uid}|${c}"]`)||{}).value;
+  return {comp:p('comp'), larg:p('larg'), prof:p('prof')};
+}
+function medPinta(uid){
+  const box = document.getElementById('md-'+uid); if(!box) return;
+  const f = medLer(uid), a = medArea(f);
+  if(!a){ box.className = 'medres vazio';
+    box.textContent = 'Meça o buraco: comprimento e largura em metros.'; return; }
+  box.className = 'medres';
+  box.innerHTML = `Área <b>${medBR(a,2)} m²</b>`
+    + (medNum(f.prof) ? ` · Volume <b>${medBR(medVolume(f),3)} m³</b>` : ' · falta a profundidade');
+}
+/* A medida pedida na hora da foto: quem está na rua tem o buraco na frente,
+   e depois ninguém volta lá para medir. Dá para pular — os mesmos três campos
+   continuam no cartão do furo, e o escritório também consegue corrigir. */
+let MED_SHEET_UID = null;
+async function medSheetAbrir(uid){
+  const f = (await dbGetAll('furos')).find(x=>x.uid===uid); if(!f) return;
+  MED_SHEET_UID = uid;
+  $('md-tit').textContent = 'Medida do buraco ' + f.num;
+  $('md-sub').innerHTML = medArea(f)
+    ? 'Confira ou corrija a medida deste buraco.'
+    : 'Foto guardada. Meça o buraco agora, enquanto ele está na sua frente.';
+  $('md-comp').value = medNum(f.comp)||''; $('md-larg').value = medNum(f.larg)||'';
+  $('md-prof').value = medNum(f.prof)||'';
+  medSheetPinta();
+  $('ov-med').style.display = 'flex';
+  setTimeout(()=>{ try{ $('md-comp').focus(); }catch(e){} }, 200);
+}
+function medSheetPinta(){
+  const box = $('md-res'); if(!box) return;
+  const f = {comp:$('md-comp').value, larg:$('md-larg').value, prof:$('md-prof').value};
+  const a = medArea(f);
+  if(!a){ box.className='medres vazio'; box.textContent='Comprimento e largura em metros — 80 cm é 0,80.'; return; }
+  box.className='medres';
+  box.innerHTML = `Área <b>${medBR(a,2)} m²</b>`
+    + (medNum(f.prof) ? ` · Volume <b>${medBR(medVolume(f),3)} m³</b>` : ' · falta a profundidade');
+}
+function medSheetFechar(){ $('ov-med').style.display='none'; MED_SHEET_UID = null; }
+async function medSheetSalvar(){
+  const uid = MED_SHEET_UID; if(!uid) return medSheetFechar();
+  const f = (await dbGetAll('furos')).find(x=>x.uid===uid);
+  if(f) await dbPut('furos', {...f,
+    comp: medNum($('md-comp').value)||'', larg: medNum($('md-larg').value)||'',
+    prof: medNum($('md-prof').value)||''});
+  medSheetFechar();
+  await seqRender();
+}
+
+async function medGravar(uid, campo, valor){
+  await seqSetCampo(uid, campo, campo==='equipamento' ? valor : (medNum(valor) || ''));
+  if(campo==='equipamento') return;
+  medPinta(uid);
+  medResumoTela(await seqFuros());
+}
+/* O total do dia, na faixa de números do alto da tela. */
+function medResumoTela(furos){
+  const box = document.getElementById('s-medtot'); if(!box) return;
+  const medidos = furos.filter(f=>medArea(f)>0).length;
+  const area = furos.reduce((t,f)=>t+medArea(f),0);
+  box.innerHTML = `<div class="kc ${medidos===furos.length && furos.length ? 'gn':'am'}">
+    <div class="kl">Área medida</div><div class="kv">${medBR(area,2)} m²</div></div>`;
+}
+
+async function seqRender(){
+  try{
+    /* A lista depende só da data: sem medição o dia continua sendo lançado. */
+    if(!$('s-data').value){ $('s-lista').innerHTML = ''; $('s-kpis').innerHTML = '';
+      $('s-status').textContent=''; $('s-relbar').innerHTML=''; $('s-pos').innerHTML=''; return; }
+    await relAtualDoDia(false);
+    pintarRelBar();
+    const furos = await seqFuros();
+    const todasFotos = await dbGetAll('fotos');
+    const mapaF = new Map();
+    todasFotos.forEach(x=>{ mapaF.set(x.furoUid+'|'+x.tipo, x); });
+    const imgs = await dbGetAll('imagens');
+    const mapaI = new Map(imgs.map(i=>[i.fotoUid, i]));
+
+    let nFotos = 0, semEnd = 0, aEnviar = 0, semGps = 0;
+    const html = furos.map(f=>{
+      /* Os obrigatórios sempre aparecem; os de DURANTE só depois de tirados. */
+      const tiposDoFuro = FOTO_TIPOS.filter(t => FOTO_OBRIGATORIAS.includes(t) || mapaF.has(f.uid+'|'+t));
+      const livre = FOTO_TIPOS.find(t => !FOTO_OBRIGATORIAS.includes(t) && !mapaF.has(f.uid+'|'+t));
+      const cels = tiposDoFuro.map(tipo=>{
+        const fo = mapaF.get(f.uid+'|'+tipo);
+        const rot = `BURACO ${f.num}<br>${FOTO_CURTO[tipo]}`;
+        if(!fo) return `<div class="slotp" data-slot="${f.uid}|${tipo}" onclick="seqTirar('${f.uid}','${tipo}')">
+            <i class="ti ti-camera-plus"></i><div class="rot">${rot}</div></div>`;
+        nFotos++;
+        if(!fo.enviada) aEnviar++;
+        if(!fo.enderecoOk) semEnd++;
+        if(fo.lat == null) semGps++;
+        const im = mapaI.get(fo.uid);
+        const src = im ? im.carimbada : (fo.url||'');
+        const gpsCls = fo.lat!=null ? '' : ' no';
+        const gpsTxt = fo.lat!=null ? (fo.enderecoOk?'GPS+END':'GPS') : 'SEM GPS';
+        return `<div class="slotp cheio" data-slot="${f.uid}|${tipo}" onclick="seqTirar('${f.uid}','${tipo}')">
+            ${src?`<img src="${src}" alt="">`:''}
+            <div class="gps${gpsCls}">${gpsTxt}</div>
+            <div class="tag">${esc(fo.rotulo)}${fo.enviada?' ✓':''}</div></div>`;
+      }).join('')
+      + (livre ? `<div class="slotp mais" onclick="seqTirar('${f.uid}','${livre}')">
+            <i class="ti ti-plus"></i><div class="rot">MAIS UMA FOTO<br>até 4 no buraco</div></div>` : '');
+      const completo = mapaF.has(f.uid+'|antes') && mapaF.has(f.uid+'|depois');
+      const nDoFuro = FOTO_TIPOS.filter(t=>mapaF.has(f.uid+'|'+t)).length;
+      return `<div class="fcard-furo${completo?' ok':''}">
+        <div class="fh"><b>Buraco ${f.num}</b>
+          ${f.rua?`<span style="font-size:11.5px;color:var(--text2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(f.rua)}</span>`:'<span style="flex:1"></span>'}
+          <span class="st ${completo?'s-ok':'s-wn'}">${completo?nDoFuro+' fotos':'faltam as 2 obrigatórias'}</span>
+          <button class="btn sm" style="width:auto;padding:6px 9px" onclick="seqExcluirFuro('${f.uid}',${f.num})"><i class="ti ti-trash"></i></button></div>
+        <div class="fb">
+          <div class="fotos">${cels}</div>
+          <div class="eqprow">
+            <label>Equipamento que trabalhou neste buraco</label>
+            <select onchange="medGravar('${f.uid}','equipamento',this.value)">${EQP_OPCOES(f.equipamento)}</select>
+          </div>
+          <div class="medrow">
+            <div><label>Compr. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+              data-med="${f.uid}|comp" value="${medNum(f.comp)||''}" placeholder="0,00"
+              oninput="medPinta('${f.uid}')" onchange="medGravar('${f.uid}','comp',this.value)"></div>
+            <div><label>Largura (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+              data-med="${f.uid}|larg" value="${medNum(f.larg)||''}" placeholder="0,00"
+              oninput="medPinta('${f.uid}')" onchange="medGravar('${f.uid}','larg',this.value)"></div>
+            <div><label>Prof. (m)</label><input type="number" step="0.01" min="0" inputmode="decimal"
+              data-med="${f.uid}|prof" value="${medNum(f.prof)||''}" placeholder="0,00"
+              oninput="medPinta('${f.uid}')" onchange="medGravar('${f.uid}','prof',this.value)"></div>
+          </div>
+          <div class="medres vazio" id="md-${f.uid}" onclick="medSheetAbrir('${f.uid}')"
+            title="Tocar para medir">Meça o buraco: comprimento e largura em metros.</div>
+        </div></div>`;
+    }).join('');
+
+    $('s-lista').innerHTML = html || `<div class="empty"><i class="ti ti-camera-off"></i>
+      Nenhum buraco lançado neste relatório. Toque em <b>Adicionar buraco</b> para começar.</div>`;
+    $('s-add-txt').textContent = furos.length
+      ? `Adicionar buraco ${furos.length+1} (2 a 4 fotos)` : 'Adicionar buraco 1 (2 a 4 fotos)';
+    const rua = $('s-rua').value.trim();
+    $('s-rua-txt').innerHTML = rua ? `Trocar rua — hoje: <b>${esc(rua)}</b>` : 'Definir a rua';
+
+    $('s-kpis').innerHTML =
+      `<div class="kc"><div class="kl">Buracos</div><div class="kv">${furos.length}</div></div>
+       <div class="kc gn"><div class="kl">Fotos</div><div class="kv">${nFotos}</div></div>
+       <div class="kc ${aEnviar?'am':'gn'}"><div class="kl">A enviar</div><div class="kv">${aEnviar}</div></div>
+       <div class="kc ${semEnd?'am':'gn'}"><div class="kl">Sem endereço</div><div class="kv">${semEnd}</div></div>
+       <div id="s-medtot" style="display:contents"></div>`;
+    medResumoTela(furos);
+    furos.forEach(f=>medPinta(f.uid));
+
+    pintarPosRelatorio(furos.length);
+    const partes = [];
+    if(!furos.length) partes.push('Comece adicionando o primeiro buraco.');
+    else{
+      partes.push(`<b>${furos.length}</b> buracos e <b>${nFotos}</b> fotos neste relatório.`);
+      if(aEnviar) partes.push(`<b>${aEnviar}</b> foto(s) ainda não foram enviadas.`);
+      if(semEnd) partes.push(`<b>${semEnd}</b> sem endereço no carimbo — o app completa quando houver internet.`);
+      if(semGps) partes.push(`<span style="color:var(--red)"><b>${semGps}</b> sem GPS.</span>`);
+    }
+    $('s-status').innerHTML = partes.join('<br>');
+  }catch(err){ console.error(err); erroSeq(err); }
+}
+function pintarRelBar(){
+  const box = $('s-relbar'); if(!box) return;
+  if(!REL_ATUAL){
+    box.innerHTML = `<div class="relbar"><i class="ti ti-file-plus"></i>
+      <span>Nenhum relatório aberto neste dia. Ele é criado sozinho quando você adicionar o primeiro buraco.</span></div>`;
+    return;
+  }
+  const r = REL_ATUAL, fim = r.status==='Concluído';
+  box.innerHTML = `<div class="relbar${fim?' fim':''}">
+    <i class="ti ti-${fim?'file-check':'file-text'}"></i>
+    <span>Relatório <b>${esc(relCod(r))}</b> · ${esc(r.equipe||'sem equipe')}
+      ${fim?`<span class="st s-ok">concluído</span>`:`<span class="st s-wn">em andamento</span>`}
+      ${r.corrigido?`<span class="st s-rd">corrigido</span>`:''}</span>
+  </div>`;
+}
+/* Depois de concluir, o caminho natural é abrir o próximo relatório. */
+function pintarPosRelatorio(qtdFuros){
+  const box = $('s-pos'); if(!box) return;
+  const bt = $('s-concluir');
+  if(REL_ATUAL && REL_ATUAL.status==='Concluído'){
+    if(bt) bt.style.display = 'none';
+    box.innerHTML = `<div class="card" style="margin:0 0 10px;padding:12px;background:var(--bg2)">
+      <div style="font-size:13.5px;color:var(--text2);margin-bottom:10px">
+        Relatório <b>${esc(relCod(REL_ATUAL))}</b> concluído com <b>${qtdFuros}</b> buraco(s) —
+        um único documento com todas as fotos.</div>
+      <button class="btn o" onclick="seqNovoRelatorio()"><i class="ti ti-file-plus"></i>Gerar novo relatório</button>
+      <div class="brow" style="margin-top:9px">
+        <button class="btn sm" style="flex:1" onclick="seqGerarPDF(true)"><i class="ti ti-file-type-pdf"></i>Enviar o PDF de novo</button>
+        <button class="btn sm" style="flex:1" onclick="seqReabrir()"><i class="ti ti-edit"></i>Reabrir para corrigir</button>
+      </div></div>`;
+  } else {
+    if(bt) bt.style.display = '';
+    box.innerHTML = '';
+  }
+}
+/* Trocar de rua no meio do relatório: os próximos furos passam a nascer com
+   a rua nova, e os já lançados ficam como estão. */
+function abrirTrocaRua(){
+  limpa('ru-err');
+  $('ru-nome').value = '';
+  setSelRua();
+  $('ov-rua').style.display = 'flex';
+  setTimeout(()=>$('ru-nome').focus(), 250);
+}
+function setSelRua(){
+  const sel = $('ru-srv'); if(!sel) return;
+  sel.innerHTML = '<option value="">— manter o serviço atual —</option>' + SRV_OPCOES($('s-srv').value);
+  sel.value = '';
+}
+async function confirmarTrocaRua(){
+  const nova = $('ru-nome').value.trim();
+  if(!nova){ alerta('ru-err','Digite o nome da rua.'); return; }
+  $('s-rua').value = nova;
+  const srv = $('ru-srv').value;
+  if(srv) $('s-srv').value = srv;
+  if(REL_ATUAL) await relGravar(REL_ATUAL.uid, {rua:nova, servico:$('s-srv').value});
+  $('ov-rua').style.display = 'none';
+  await seqRender();
+  alerta('s-ok','Agora lançando na <b>'+esc(nova)+'</b>. Toque em <b>Adicionar buraco</b> para o primeiro buraco desta rua.',0);
+  const b = $('s-add'); if(b) b.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+async function seqNovoRelatorio(){
+  limpa('s-err','s-ok','s-aviso');
+  const data = $('s-data').value, equipe = $('s-eq').value || ID.equipe || '';
+  if(!data){ alerta('s-err','Informe a data do serviço.'); return; }
+  /* Documento novo só depois que o anterior for validado pelo escritório.
+     Foi abrindo documento novo com o anterior pela metade que as fotos do
+     DEPOIS viraram furos soltos. Aqui não é aviso: é a regra. */
+  const pend = await relNaoValidado(data, equipe);
+  if(pend){
+    await relGravar(pend.rel.uid, {status:'Aberto'});
+    REL_ATUAL = (await relDoDia(data, equipe)).find(r=>r.uid===pend.rel.uid) || pend.rel;
+    await seqRender();
+    alerta('s-err', `Ainda não dá para abrir documento novo: o relatório
+      <b>${esc(relCod(REL_ATUAL))}</b> não foi validado pelo escritório.
+      ${relPorqueTrancado(pend)}.<br>
+      Continue neste mesmo documento${pend.semDepois ? ' — toque no quadro vazio de cada buraco para a foto do <b>Depois</b>' : ''}.
+      Assim que o escritório validar, o próximo abre.`, 0);
+    window.scrollTo({top:0, behavior:'smooth'});
+    return;
+  }
+  await relCriar(data, equipe);
+  await seqRender();
+  alerta('s-ok','Relatório <b>'+esc(relCod(REL_ATUAL))+'</b> aberto. Adicione os buracos deste novo documento.');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+async function seqReabrir(){
+  if(!REL_ATUAL) return;
+  await relGravar(REL_ATUAL.uid, {status:'Aberto'});
+  await seqRender();
+  alerta('s-ok','Relatório reaberto. Corrija o que precisar e toque em <b>Concluir</b> outra vez.');
+}
+function erroSeq(err){ alerta('s-err','Erro ao montar a lista: '+esc(err.message||err)); }
+function SRV_OPCOES(sel){
+  const base = window._srvs || [];
+  return base.map(s=>`<option${s===sel?' selected':''}>${esc(s)}</option>`).join('');
+}
+function EQP_OPCOES(sel){
+  const base = window._eqps || [];
+  return `<option value=""${sel?'':' selected'}>— nenhum —</option>`
+       + base.map(q=>`<option${q===sel?' selected':''}>${esc(q)}</option>`).join('');
+}
+
+/* -------------------- envio das fotos + PDF do relatório ---------------- */
+async function seqEnviarFotos(silencioso){
+  limpa('s-err','s-ok','s-aviso');
+  if(!conectado()){ alerta('s-err','O app não está ligado ao sistema do escritório.'); return false; }
+  if(!navigator.onLine){ alerta('s-err','Sem internet. As fotos ficam guardadas e sobem quando a conexão voltar.'); return false; }
+  const furos = await seqFuros();
+  const uids = new Set(furos.map(f=>f.uid));
+  const fotos = (await dbGetAll('fotos')).filter(x=>uids.has(x.furoUid));
+  const pend = fotos.filter(x=>!x.enviada);
+  if(!pend.length){ if(!silencioso) alerta('s-ok','Todas as fotos deste dia já estão no escritório.'); return true; }
+  const imgs = await dbGetAll('imagens');
+  const mapaI = new Map(imgs.map(i=>[i.fotoUid,i]));
+  let ok = 0, falhas = 0;
+  for(let i=0;i<pend.length;i++){
+    const fo = pend[i];
+    alerta('s-prog', `Enviando foto <b>${i+1}</b> de <b>${pend.length}</b>...
+      <div class="barra"><div style="width:${Math.round((i/pend.length)*100)}%"></div></div>`, 0);
+    try{
+      const im = mapaI.get(fo.uid);
+      if(!im){ falhas++; continue; }
+      let carimbada = im.carimbada;
+      /* completa o endereço agora que há internet e refaz o carimbo */
+      if(!fo.enderecoOk && fo.lat != null){
+        try{
+          const end = await buscarEndereco(fo.lat, fo.lng);
+          let mapa = null; try{ mapa = await miniMapa(fo.lat, fo.lng); }catch(e){}
+          carimbada = await carimbar(im.original || im.carimbada, {
+            dataHora:fo.dataHora, lat:fo.lat, lng:fo.lng, alt:fo.alt,
+            heading:fo.heading, direcao:fo.direcao, indice:fo.indice, endereco:end, mapa
+          });
+          fo.endereco = end; fo.enderecoOk = true; fo.temMapa = !!mapa;
+          await _rawPut('imagens', {...im, carimbada, completa:true});
+        }catch(e){ console.warn('endereço adiado', e); }
+      }
+      const url = await stEnviar(fo.arquivo || stCaminho(fo), carimbada);
+      /* A miniatura viaja junto. Se falhar, a foto já está lá — o escritório
+         só vai gastar um pouco mais para mostrá-la. */
+      let urlMini = '', arquivoMini = '';
+      try{
+        arquivoMini = stCaminhoMini(fo);
+        urlMini = await stEnviar(arquivoMini, await encolher(carimbada, MINI_LARGURA, 0.66));
+      }catch(e){ console.warn('sem miniatura', e); urlMini = ''; arquivoMini = ''; }
+      await dbPut('fotos', {...fo, enviada:true, url, urlMini, arquivoMini,
+        enviadaEm:new Date().toISOString()});
+      /* libera espaço: o original não é mais necessário depois do envio */
+      const im2 = (await dbGetAll('imagens')).find(x=>x.fotoUid===fo.uid);
+      if(im2) await _rawPut('imagens', {...im2, original:null});
+      ok++;
+    }catch(err){ console.error(err); falhas++; }
+  }
+  limpa('s-prog');
+  await seqRender();
+  if(falhas) alerta('s-aviso', `<b>${ok}</b> foto(s) enviadas, <b>${falhas}</b> falharam. Toque em enviar de novo para tentar as que faltam.`, 0);
+  else if(!silencioso) alerta('s-ok', `<b>${ok}</b> foto(s) enviadas ao escritório.`);
+  return falhas === 0;
+}
+
+async function carregarJsPDF(){
+  if(window.jspdf && window.jspdf.jsPDF) return window.jspdf.jsPDF;
+  await new Promise((ok,no)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    s.onload = ok;
+    s.onerror = ()=>no(new Error('Não foi possível baixar o gerador de PDF. Conecte-se à internet uma vez para ele ficar guardado.'));
+    document.head.appendChild(s);
+  });
+  return window.jspdf.jsPDF;
+}
+/* Monta o relatório no mesmo padrão do documento: 8 blocos por página A4,
+   cada bloco com 2 furos, 4 fotos e a tabela Furo / Bairro-Rua / Serviço. */
+async function seqGerarPDF(compartilhar){
+  limpa('s-err','s-ok','s-aviso');
+  try{
+    const furos = await seqFuros();
+    if(!furos.length){ alerta('s-err','Não há buracos lançados neste dia.'); return null; }
+    alerta('s-prog','Montando o relatório...',0);
+    const jsPDF = await carregarJsPDF();
+    const doc = new jsPDF({unit:'mm', format:'a4', orientation:'portrait', compress:true});
+
+    const fotos = await dbGetAll('fotos');
+    const imgs = await dbGetAll('imagens');
+    const mapaI = new Map(imgs.map(i=>[i.fotoUid,i]));
+    const mapaF = new Map(); fotos.forEach(x=>mapaF.set(x.furoUid+'|'+x.tipo,x));
+
+    /* Um buraco por quadro, com os quatro espaços dele. */
+    const pares = furos.map(f=>[f]);
+
+    const M = 8, LARG = 210, COL = (LARG - M*2 - 6)/2, HF = 24, BPP = 8;
+    const dataTxt = fmtData($('s-data').value);
+    let pag = 0, idx = 0;
+
+    for(let p=0; p<pares.length; p+=BPP){
+      if(pag) doc.addPage();
+      pag++;
+      let y = M;
+      doc.setFont('helvetica','bold'); doc.setFontSize(9);
+      doc.text(SYNC.empresa || 'FUNCHAL', LARG/2, y+4, {align:'center'});
+      doc.setFont('helvetica','normal'); doc.setFontSize(7.5);
+      const eqTxt = (REL_ATUAL && REL_ATUAL.equipe) || $('s-eq').value || '';
+      doc.text((eqTxt ? 'EQUIPE '+eqTxt : '')
+               + (REL_ATUAL?`  ·  RELATÓRIO ${relCod(REL_ATUAL)}`:''), LARG/2, y+8, {align:'center'});
+      doc.setFont('helvetica','bold'); doc.setFontSize(8);
+      doc.text('DIÁRIO DE SUPERVISÃO - RELATÓRIO FOTOGRÁFICO', M, y+14);
+      doc.text('Data: '+dataTxt, LARG-M, y+14, {align:'right'});
+      doc.setLineWidth(0.3); doc.line(M, y+15.5, LARG-M, y+15.5);
+      y += 18;
+
+      const daPagina = pares.slice(p, p+BPP);
+      for(let b=0; b<daPagina.length; b++){
+        const col = b % 2, lin = Math.floor(b/2);
+        const x0 = M + col*(COL+6);
+        const y0 = y + lin*(HF*2 + 12 + 4);
+        const par = daPagina[b];
+        const cel = [];
+        par.forEach(f=>{ FOTO_TIPOS.forEach(t=>{
+          const fo = mapaF.get(f.uid+'|'+t);
+          const im = fo && mapaI.get(fo.uid);
+          cel.push(im ? im.carimbada : null);
+        }); });
+        for(let ci=0; ci<cel.length; ci++){
+          const cx = x0 + (ci%2)*(COL/2), cy = y0 + Math.floor(ci/2)*HF;
+          if(cel[ci]){ try{ doc.addImage(cel[ci], 'JPEG', cx, cy, COL/2, HF); }catch(e){} }
+          else { doc.setFillColor(238,238,238); doc.rect(cx, cy, COL/2, HF, 'F'); }
+          doc.setDrawColor(120); doc.setLineWidth(0.2); doc.rect(cx, cy, COL/2, HF);
+        }
+        const alturaFotos = Math.ceil(cel.length/2)*HF;
+        const rot = par.length===2 ? `${par[0].num} e ${par[1].num}` : `${par[0].num}`;
+        const ruas = [...new Set(par.map(f=>f.rua).filter(Boolean))].join(' / ') || '—';
+        const srvs = [...new Set(par.map(f=>f.servico).filter(Boolean))].join(' / ') || '—';
+        const linhas = [['Buraco',rot],['Bairro/Rua',ruas],['Serviço',srvs]];
+        /* A medição do buraco entra no papel logo abaixo do serviço — só quando
+           existe, para não abrir uma linha vazia no bloco. */
+        const medidos = par.filter(f=>medArea(f)>0).map(f=>
+          `${par.length>1?'nº '+f.num+': ':''}${medBR(medNum(f.comp),2)}×${medBR(medNum(f.larg),2)}`
+          + (medNum(f.prof)?`×${medBR(medNum(f.prof),2)}`:'') + ` m = ${medBR(medArea(f),2)} m²`);
+        /* O bloco tem altura fixa: cabem quatro linhas, nunca cinco. Por isso o
+           equipamento entra junto da medição em vez de abrir linha própria. */
+        const maqs = [...new Set(par.map(f=>f.equipamento).filter(Boolean))].join(' / ');
+        if(medidos.length) linhas.push(['Medição', medidos.join('  /  ') + (maqs ? '  ·  ' + maqs : '')]);
+        else if(maqs) linhas.push(['Equipamento', maqs]);
+        doc.setFontSize(6.2);
+        linhas.forEach((ln,li)=>{
+          const ty = y0 + alturaFotos + li*3.6;
+          doc.setDrawColor(110); doc.rect(x0, ty, 16, 3.6); doc.rect(x0+16, ty, COL-16, 3.6);
+          doc.setFont('helvetica','bold'); doc.text(ln[0], x0+8, ty+2.5, {align:'center'});
+          doc.setFont('helvetica','normal');
+          doc.text(String(ln[1]).slice(0,54), x0+17, ty+2.5);
+        });
+        idx++;
+      }
+      doc.setFontSize(6); doc.setTextColor(120);
+      doc.text(`Página ${pag}`, LARG-M, 292, {align:'right'});
+      doc.setTextColor(0);
+    }
+    limpa('s-prog');
+    const nome = REL_ATUAL
+      ? `Relatorio_${relCod(REL_ATUAL)}_${relSlug(REL_ATUAL.equipe)}.pdf`
+      : `Relatorio_${($('s-data').value||'').replace(/-/g,'')}.pdf`;
+    const blob = doc.output('blob');
+    if(compartilhar) await compartilharPDF(blob, nome);
+    return {blob, nome};
+  }catch(err){
+    limpa('s-prog');
+    alerta('s-err','Não deu para gerar o PDF: '+esc(err.message||err), 0);
+    return null;
+  }
+}
+async function carregarXLSX(){
+  if(window.XLSX) return window.XLSX;
+  await new Promise((ok,no)=>{
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+    s.onload = ok;
+    s.onerror = ()=>no(new Error('sem gerador de planilha'));
+    document.head.appendChild(s);
+  });
+  return window.XLSX;
+}
+function csvEscapa(v){
+  const s = (v==null?'':String(v));
+  return /[";\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+/* Uma linha por foto, com o que o carimbo capturou. */
+async function seqLinhas(){
+  const furos = await seqFuros();
+  const fotos = await dbGetAll('fotos');
+  const linhas = [];
+  furos.forEach(f=>{
+    FOTO_TIPOS.forEach(tipo=>{
+      const fo = fotos.find(x=>x.furoUid===f.uid && x.tipo===tipo);
+      const e = (fo && fo.endereco) || {};
+      linhas.push({
+        'Data': fmtData(f.data), 'Equipe': f.equipe||'',
+        'Buraco': f.num, 'Foto': fotoRot(tipo),
+        'Bairro/Rua': f.rua||'', 'Bairro (carimbo)': e.bairro||'',
+        'Serviço': f.servico||'', 'Equipamento': f.equipamento||'',
+        'Comprimento (m)': medNum(f.comp)||'', 'Largura (m)': medNum(f.larg)||'',
+        'Profundidade (m)': medNum(f.prof)||'',
+        'Área (m²)': medArea(f) ? +medArea(f).toFixed(3) : '',
+        'Volume (m³)': medVolume(f) ? +medVolume(f).toFixed(4) : '',
+        'Latitude': (fo&&fo.lat!=null)?fo.lat:'',
+        'Longitude': (fo&&fo.lng!=null)?fo.lng:'',
+        'Direção': (fo&&fo.direcao)||'',
+        'Endereço do carimbo': [e.numero,e.rua].filter(Boolean).join(' '),
+        'Data/hora da foto': (fo&&fo.dataHora)?new Date(fo.dataHora).toLocaleString('pt-BR'):'',
+        'Lançado por': f.lancadoPor||'', 'Aparelho': f.dispositivo||'',
+        'Situação': f.status||'Pendente',
+        'Foto (link)': (fo&&fo.url)||''
+      });
+    });
+  });
+  return linhas;
+}
+async function seqPlanilha(){
+  limpa('s-err','s-ok','s-aviso');
+  try{
+    const linhas = await seqLinhas();
+    if(!linhas.length){ alerta('s-err','Não há buracos lançados neste dia.'); return; }
+    const base = `Planilha_${($('s-data').value||'').replace(/-/g,'')}`;
+    /* resumo por furo, que é o que vai para a medição */
+    const porFuro = {};
+    linhas.forEach(l=>{
+      const k = l['Buraco'];
+      if(!porFuro[k]) porFuro[k] = {'Buraco':k,'Bairro/Rua':l['Bairro/Rua'],'Serviço':l['Serviço'],
+                                    'Área (m²)':0,'Volume (m³)':0,'Fotos':0};
+      if(l['Área (m²)']) porFuro[k]['Área (m²)'] = +(porFuro[k]['Área (m²)'] + Number(l['Área (m²)'])).toFixed(3);
+      if(l['Volume (m³)']) porFuro[k]['Volume (m³)'] = +(porFuro[k]['Volume (m³)'] + Number(l['Volume (m³)'])).toFixed(4);
+      if(l['Foto (link)'] || l['Data/hora da foto']) porFuro[k]['Fotos']++;
+    });
+    const resumo = Object.values(porFuro);
+    try{
+      const XLSX = await carregarXLSX();
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(linhas), 'Fotos');
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(resumo), 'Resumo por buraco');
+      const buf = XLSX.write(wb, {bookType:'xlsx', type:'array'});
+      await compartilharArquivo(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), base+'.xlsx');
+    }catch(e){
+      /* sem internet para o gerador: sai em CSV, que o Excel abre igual */
+      const cab = Object.keys(linhas[0]);
+      const csv = '\ufeff' + [cab.join(';')].concat(linhas.map(l=>cab.map(k=>csvEscapa(l[k])).join(';'))).join('\n');
+      await compartilharArquivo(new Blob([csv],{type:'text/csv;charset=utf-8'}), base+'.csv');
+      alerta('s-aviso','Sem internet para o gerador de .xlsx — saiu em CSV, que o Excel abre do mesmo jeito.',0);
+    }
+  }catch(err){ alerta('s-err','Não deu para gerar a planilha: '+esc(err.message||err),0); }
+}
+async function compartilharArquivo(blob, nome){
+  const arquivo = new File([blob], nome, {type:blob.type});
+  if(navigator.canShare && navigator.canShare({files:[arquivo]})){
+    try{ await navigator.share({files:[arquivo], title:nome}); alerta('s-ok','Planilha enviada. Escolha o contato.'); return; }
+    catch(e){ if(e && e.name==='AbortError') return; }
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = nome; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  alerta('s-ok','Planilha baixada no aparelho: <b>'+esc(nome)+'</b>');
+}
+async function compartilharPDF(blob, nome){
+  const arquivo = new File([blob], nome, {type:'application/pdf'});
+  if(navigator.canShare && navigator.canShare({files:[arquivo]})){
+    try{
+      await navigator.share({files:[arquivo], title:nome, text:'Relatório fotográfico'});
+      alerta('s-ok','Relatório enviado. Escolha o contato no WhatsApp.');
+      return;
+    }catch(e){ if(e && e.name === 'AbortError') return; }
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = nome; a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  alerta('s-aviso','Este aparelho não abre o compartilhamento direto — o PDF foi baixado. Anexe-o no WhatsApp.',0);
+}
+async function seqConcluir(){
+  limpa('s-err','s-ok','s-aviso');
+  const furos = await seqFuros();
+  if(!furos.length){ alerta('s-err','Não há buracos lançados neste dia.'); return; }
+  const semFoto = [];
+  const fotos = await dbGetAll('fotos');
+  furos.forEach(f=>{
+    const a = fotos.find(x=>x.furoUid===f.uid && x.tipo==='antes');
+    const d = fotos.find(x=>x.furoUid===f.uid && x.tipo==='depois');
+    if(!a || !d) semFoto.push(f.num);
+  });
+  const seguir = async ()=>{
+    await seqEnviarFotos(true);
+    if(REL_ATUAL){
+      const jaConcluido = REL_ATUAL.status==='Concluído';
+      await relGravar(REL_ATUAL.uid, {
+        status:'Concluído', concluidoEm:new Date().toISOString(), concluidoPor:ID.nome,
+        rua:$('s-rua').value.trim() || REL_ATUAL.rua, servico:$('s-srv').value || REL_ATUAL.servico,
+        furos: furos.length,
+        ...(jaConcluido ? {corrigido:true, corrigidoPor:ID.nome, corrigidoEm:new Date().toISOString(), conferido:false} : {})
+      });
+    }
+    await sincronizar(true);
+    await seqGerarPDF(true);   /* um único PDF, com todas as fotos do relatório */
+    await seqRender();
+    alerta('s-ok','Relatório <b>'+(REL_ATUAL?esc(relCod(REL_ATUAL)):'')+'</b> concluído — um documento só, com as '
+      +'fotos de todos os buracos. Toque em <b>Planilha</b> para mandar também os dados das dimensões.',0);
+  };
+  if(semFoto.length){
+    confirmarSheet('Buracos incompletos',
+      `Os buracos <b>${semFoto.slice(0,12).join(', ')}</b>${semFoto.length>12?'...':''} estão sem as duas fotos obrigatórias (Antes e Concluído).
+       Eles entram no relatório com o espaço vazio. Continuar mesmo assim?`, seguir);
+  } else seguir();
+}
+
+/* editar um furo específico volta para a sequência do dia dele */
+async function editarFuro(id){
+  const furos = await dbGetAll('furos');
+  const f = furos.find(x=>x.id===id); if(!f) return;
+  if(f.status==='Validado'){ alerta('m-st','Este buraco já foi validado pelo escritório.'); return; }
+  ir('seq');
+  setTimeout(async()=>{
+    if(f.data) $('s-data').value = f.data;
+    await seqRender();
+    const el = [...document.querySelectorAll('#s-lista .fcard-furo')]
+      .find(x=>x.querySelector('b') && x.querySelector('b').textContent === 'Buraco '+f.num);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }, 250);
+}
+
+/* --------------------------- ATUALIZAÇÃO ------------------------------
+   O aplicativo instalado é só a casca; a tela do app se atualiza sozinha a
+   partir do endereço abaixo, que é só de leitura. Quem abre pelo navegador
+   recebe o mesmo aviso, e basta recarregar a página. */
+const CANAL_APP = 'https://gedremsisep-lgtm.github.io/funchal-app/';
+let ATUALIZACAO = null;
+function noAplicativo(){ return typeof AndroidTeste !== 'undefined'; }
+
+/* chamada pelo próprio aplicativo quando termina de procurar */
+function avisarAtualizacao(estado, valor){
+  ATUALIZACAO = {estado, valor, versao:valor};
+  if(estado === 'pronta'){
+    pintarFaixaAtualizacao();
+    alerta('a-ver-ok', 'Versão <b>'+esc(valor)+'</b> baixada. Toque em <b>Usar a versão nova</b>.', 0);
+  } else if(estado === 'igual'){
+    alerta('a-ver-info', 'Você já está na versão mais recente (<b>'+esc(valor)+'</b>).');
+  } else {
+    alerta('a-ver-info', 'Não deu para verificar agora: '+esc(valor)+'. O app continua funcionando normalmente.');
+  }
+  pintarVersao();
+}
+function pintarFaixaAtualizacao(){
+  const box = $('in-atualizacao'); if(!box) return;
+  const faixas = [];
+  /* O aplicativo vem primeiro: instalar a casca nova já traz a tela junto. */
+  if(ATUALIZACAO_APP && ATUALIZACAO_APP.estado === 'pronta'){
+    faixas.push(`<div class="relbar fim" style="margin-bottom:12px">
+      <i class="ti ti-device-mobile-down"></i>
+      <span>Aplicativo <b>${esc(ATUALIZACAO_APP.versao||'')}</b> baixado.
+        <span class="st s-ok" style="margin-left:4px" onclick="instalarApp()">Instalar a versão nova</span></span>
+    </div>`);
+  }
+  if(ATUALIZACAO && ATUALIZACAO.estado === 'pronta'){
+    faixas.push(`<div class="relbar fim" style="margin-bottom:12px">
+      <i class="ti ti-download"></i>
+      <span>Atualização <b>${esc(ATUALIZACAO.versao||'')}</b> pronta.
+        <span class="st s-ok" style="margin-left:4px" onclick="aplicarAtualizacao()">Usar a versão nova</span></span>
+    </div>`);
+  }
+  box.innerHTML = faixas.join('');
+}
+function aplicarAtualizacao(){
+  if(noAplicativo()) AndroidTeste.aplicarAtualizacao();
+  else location.reload();
+}
+async function procurarAtualizacao(){
+  limpa('a-ver-ok','a-ver-info');
+  if(noAplicativo()){
+    alerta('a-ver-info','Procurando...', 0);
+    AndroidTeste.procurarAtualizacao();
+    return;
+  }
+  try{
+    const r = await fetch(CANAL_APP+'versao.json?t='+Date.now(), {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const j = await r.json();
+    if(j.appVersion && j.appVersion !== APP_VERSION){
+      ATUALIZACAO = {estado:'pronta', versao:j.appVersion};
+      pintarFaixaAtualizacao();
+      alerta('a-ver-ok','Existe a versão <b>'+esc(j.appVersion)+'</b>. Recarregue a página para usá-la.',0);
+    } else {
+      alerta('a-ver-info','Você já está na versão mais recente (<b>'+esc(APP_VERSION)+'</b>).');
+    }
+  }catch(e){
+    alerta('a-ver-info','Não deu para verificar agora: '+esc(e.message||e)+'.');
+  }
+  pintarVersao();
+}
+/* --------- atualização do próprio aplicativo (a casca instalada) ---------
+   Duas coisas se atualizam por caminhos diferentes, e a tela mostra as duas
+   separadas para ninguém confundir:
+     • a TELA (conteúdo) — troca sozinha, sem instalar nada;
+     • o APLICATIVO (APK) — baixa sozinho e pede um toque em Instalar, porque
+       o Android não deixa nenhum programa se instalar calado.
+   Publicando um APK novo, o celular acha na abertura seguinte. */
+let ATUALIZACAO_APP = null;
+function avisarApp(estado, valor){
+  ATUALIZACAO_APP = {estado, versao:valor};
+  if(estado === 'pronta'){
+    pintarFaixaAtualizacao();
+    alerta('a-app-ok','Aplicativo <b>'+esc(valor)+'</b> baixado. Toque em <b>Instalar a versão nova</b>.',0);
+  } else if(estado === 'existe'){
+    alerta('a-app-info','Saiu o aplicativo <b>'+esc(valor)+'</b>, mas o arquivo ainda não foi publicado. Peça o APK ao escritório.',0);
+  } else if(estado === 'igual'){
+    alerta('a-app-info','O aplicativo já está na versão mais recente (<b>'+esc(valor)+'</b>).');
+  } else {
+    alerta('a-app-info','Não deu para verificar o aplicativo agora: '+esc(valor)+'.');
+  }
+  pintarVersao();
+}
+function instalarApp(){
+  if(noAplicativo()) AndroidTeste.instalarAtualizacaoDoApp();
+}
+function procurarAtualizacaoDoApp(){
+  limpa('a-app-ok','a-app-info');
+  if(!noAplicativo()){
+    alerta('a-app-info','Você está pelo navegador — não há aplicativo instalado para atualizar.');
+    return;
+  }
+  alerta('a-app-info','Procurando...', 0);
+  AndroidTeste.procurarAtualizacaoDoApp();
+}
+/** "1.5|6" → {nome:'1.5', codigo:6} */
+function versaoDoApp(){
+  if(!noAplicativo()) return null;
+  try{
+    const p = String(AndroidTeste.versaoDoApp()||'').split('|');
+    return {nome:p[0]||'?', codigo:parseInt(p[1]||'0',10)||0};
+  }catch(e){ return null; }
+}
+function pintarVersao(){
+  const el = $('a-versao'); if(!el) return;
+  let baixada = '';
+  try{ if(noAplicativo()) baixada = AndroidTeste.versaoBaixada() || ''; }catch(e){}
+  const app = versaoDoApp();
+  const linhas = [];
+  if(app) linhas.push(`Aplicativo instalado: <b>${esc(app.nome)}</b> <span style="color:var(--text3)">(código ${app.codigo})</span>`);
+  linhas.push(`Tela em uso: <b>${esc(baixada || APP_VERSION)}</b>`
+              + (baixada ? ' <span style="color:var(--text3)">(atualizada sozinha)</span>' : ''));
+  linhas.push(noAplicativo() ? 'Rodando pelo <b>aplicativo instalado</b>' : 'Rodando pelo <b>navegador</b>');
+  el.innerHTML = linhas.join('<br>');
+
+  const extra = $('a-ver-extra');
+  if(extra) extra.innerHTML = (noAplicativo() && baixada)
+    ? `<button class="btn" style="flex:1" onclick="AndroidTeste.voltarVersaoDeFabrica()">
+         <i class="ti ti-arrow-back-up"></i>Voltar à versão de fábrica</button>`
+    : '';
+
+  const cx = $('a-app'); if(!cx) return;
+  cx.style.display = noAplicativo() ? '' : 'none';
+  const bt = $('a-app-btn');
+  if(bt) bt.innerHTML = (ATUALIZACAO_APP && ATUALIZACAO_APP.estado === 'pronta')
+    ? `<button class="btn p" style="flex:1" onclick="instalarApp()">
+         <i class="ti ti-download"></i>Instalar a versão nova</button>`
+    : `<button class="btn" style="flex:1" onclick="procurarAtualizacaoDoApp()">
+         <i class="ti ti-refresh"></i>Procurar versão nova do aplicativo</button>`;
+}
+
+/* ------------------------------- INÍCIO --------------------------------
+   Primeira tela depois de entrar: em vez de cair direto no formulário, o
+   apontador escolhe por onde começar. O caminho principal é sempre o
+   "Novo relatório fotográfico". */
+function cumprimento(){
+  const h = new Date().getHours();
+  return h < 12 ? 'Bom dia' : (h < 18 ? 'Boa tarde' : 'Boa noite');
+}
+async function inicioResumo(){
+  const [furos, rels, fotos] = await Promise.all([
+    dbGetAll('furos'), dbGetAll('relatorios'), dbGetAll('fotos')]);
+  const porRel = new Map();
+  furos.forEach(f=>{ if(!f.relatorioUid) return;
+    if(!porRel.has(f.relatorioUid)) porRel.set(f.relatorioUid, []);
+    porRel.get(f.relatorioUid).push(f); });
+  const comFuros = rels.filter(r=>!r.deletado && (porRel.get(r.uid)||[]).length);
+  const aberto = rels.filter(r=>!r.deletado && r.status!=='Concluído')
+    .sort((a,b)=>String(b.data||'').localeCompare(String(a.data||'')) || (b.seq||0)-(a.seq||0))[0] || null;
+  const devolvidos = comFuros.filter(r=>(porRel.get(r.uid)||[]).some(f=>f.status==='Devolvido')).length;
+  const aEnviar = fotos.filter(f=>!f.enviada).length;
+  return {rels:comFuros, aberto, abertoFuros:(aberto?(porRel.get(aberto.uid)||[]).length:0),
+          devolvidos, aEnviar, fila:lerFila().length,
+          hoje: comFuros.filter(r=>r.data===hoje()).length};
+}
+async function inicioRender(){
+  try{
+    const r = await inicioResumo();
+    $('in-ola').textContent = `${cumprimento()}, ${String(ID.nome||'').split(' ')[0] || 'equipe'}!`;
+    $('in-sub').innerHTML = `${new Date().toLocaleDateString('pt-BR',{weekday:'long', day:'2-digit', month:'long'})}`
+      + (ID.equipe ? ` · <b>${esc(ID.equipe)}</b>` : '');
+    $('in-kpis').innerHTML =
+      `<div class="kc"><div class="kl">Relatórios de hoje</div><div class="kv">${r.hoje}</div></div>
+       <div class="kc ${r.devolvidos?'rd':'gn'}"><div class="kl">A corrigir</div><div class="kv">${r.devolvidos}</div></div>
+       <div class="kc ${r.aEnviar?'am':'gn'}"><div class="kl">Fotos a enviar</div><div class="kv">${r.aEnviar}</div></div>
+       <div class="kc gn"><div class="kl">Total de relatórios</div><div class="kv">${r.rels.length}</div></div>`;
+
+    const cartoes = [];
+    cartoes.push(`<div class="acard p" onclick="novoRelatorioFotografico()">
+      <div class="ai"><i class="ti ti-camera-plus"></i></div>
+      <div><div class="at">Novo Relatório Fotográfico</div>
+        <div class="as">Abre a tela de lançamento para começar os buracos e as fotos do dia</div></div>
+      <div class="ac"><i class="ti ti-chevron-right"></i></div></div>`);
+
+    if(r.aberto && r.abertoFuros){
+      cartoes.push(`<div class="acard o" onclick="abrirRelatorio('${r.aberto.uid}')">
+        <div class="ai"><i class="ti ti-player-play"></i></div>
+        <div><div class="at">Continuar o relatório ${esc(relCod(r.aberto))}</div>
+          <div class="as">${fmtData(r.aberto.data)} · ${esc(r.aberto.equipe||'sem equipe')} ·
+            ${r.abertoFuros} buraco(s) lançado(s)</div></div>
+        <div class="ac"><i class="ti ti-chevron-right"></i></div></div>`);
+    }
+
+    cartoes.push(`<div class="acard ${r.devolvidos?'o':'n'}" onclick="ir('meus')">
+      <div class="ai"><i class="ti ti-list-check"></i></div>
+      <div><div class="at">Meus relatórios</div>
+        <div class="as">${r.rels.length} relatório(s)${r.devolvidos?` · <b style="color:var(--red)">${r.devolvidos} a corrigir</b>`:''} —
+          ver, editar e enviar correção</div></div>
+      <div class="ac"><i class="ti ti-chevron-right"></i></div></div>`);
+
+    /* Enviar e Ajustes saíram daqui: continuam na barra de baixo, sempre à
+       mão. A tela inicial fica só com o que começa ou retoma o trabalho. */
+
+    $('in-acoes').innerHTML = cartoes.join('');
+  }catch(err){
+    console.error(err);
+    $('in-acoes').innerHTML = `<div class="al ae show"><i class="ti ti-alert-circle"></i>
+      <span>Erro ao montar a tela: ${esc(err.message||err)}</span></div>`;
+  }
+}
+/* Começa um relatório novo e leva direto para o preenchimento. Se o que
+   está aberto ainda não tem nenhum furo, aproveita ele em vez de criar outro. */
+async function novoRelatorioFotografico(){
+  ir('seq');
+  setTimeout(async ()=>{
+    if(!$('s-data').value) $('s-data').value = hoje();
+    if(ID.equipe && [...$('s-eq').options].some(o=>o.value===ID.equipe)) $('s-eq').value = ID.equipe;
+    await relAtualDoDia(false);
+    const furos = REL_ATUAL ? await relFuros(REL_ATUAL.uid) : [];
+    if(!REL_ATUAL || REL_ATUAL.status === 'Concluído' || furos.length)
+      await relCriar($('s-data').value, $('s-eq').value || ID.equipe || '');
+    await seqRender();
+    limpa('s-err','s-aviso');
+    alerta('s-ok','Relatório <b>'+esc(relCod(REL_ATUAL))+'</b> aberto. Confira a data, a equipe e a rua, '
+      +'e toque em <b>Adicionar buraco</b>.',0);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }, 220);
+}
+
+/* --------------------------- MEUS RELATÓRIOS ---------------------------
+   A lista é por RELATÓRIO (dia + equipe), não por buraco. Cada linha é um
+   documento: dá para abrir e corrigir, e mandar a correção para o
+   escritório, que recebe o aviso de que o fiscal alterou. */
+function relSituacao(furos, r){
+  if(!furos.length) return 'Vazio';
+  if(furos.some(f=>f.status==='Devolvido')) return 'Devolvido';
+  if(furos.every(f=>f.status==='Validado')) return 'Validado';
+  return 'Pendente';
+}
+const REL_CLS = {'Validado':'s-ok','Devolvido':'s-rd','Pendente':'s-wn','Vazio':'s-wn'};
+
+async function renderMeus(){
+  try{
+    const [furos, rels, fotos, imgs] = await Promise.all([
+      dbGetAll('furos'), dbGetAll('relatorios'), dbGetAll('fotos'), dbGetAll('imagens')]);
+    const mapI = new Map(imgs.map(i=>[i.fotoUid,i]));
+    const meu = x => !ID.nome || !x.lancadoPor || x.lancadoPor===ID.nome || x.dispositivo===ID.dispositivo;
+
+    const porRel = new Map();
+    furos.filter(f=>f.relatorioUid).forEach(f=>{
+      if(!porRel.has(f.relatorioUid)) porRel.set(f.relatorioUid, []);
+      porRel.get(f.relatorioUid).push(f);
+    });
+
+    const abertoAgora = REL_ATUAL ? REL_ATUAL.uid : '';
+    const linhas = rels.filter(r=>!r.deletado && meu(r))
+      /* relatório recém-aberto e ainda sem furo não polui a lista */
+      .filter(r=>(porRel.get(r.uid)||[]).length || r.uid===abertoAgora && false)
+      .map(r=>{
+      const fs = (porRel.get(r.uid)||[]).sort((a,b)=>(parseInt(a.num)||0)-(parseInt(b.num)||0));
+      const fts = fotos.filter(x=>fs.some(f=>f.uid===x.furoUid));
+      const sit = relSituacao(fs, r);
+      const devolvidos = fs.filter(f=>f.status==='Devolvido');
+      const capas = fts.slice(0,2).map(x=>{ const im = mapI.get(x.uid); return (im&&im.carimbada) || x.url || ''; });
+      return {r, fs, sit, devolvidos, nFotos:fts.length, capas};
+    }).sort((a,b)=>{
+      const pa = a.sit==='Devolvido'?0:1, pb = b.sit==='Devolvido'?0:1;
+      return pa-pb || String(b.r.data||'').localeCompare(String(a.r.data||'')) || (b.r.seq||0)-(a.r.seq||0);
+    });
+
+    const dev = linhas.filter(l=>l.sit==='Devolvido').length;
+    const pen = linhas.filter(l=>l.sit==='Pendente').length;
+    const val = linhas.filter(l=>l.sit==='Validado').length;
+    $('m-kpis').innerHTML = `
+      <div class="kc ${dev?'rd':'gn'}"><div class="kl">A corrigir</div><div class="kv">${dev}</div></div>
+      <div class="kc am"><div class="kl">Aguardando</div><div class="kv">${pen}</div></div>
+      <div class="kc gn"><div class="kl">Validados</div><div class="kv">${val}</div></div>
+      <div class="kc"><div class="kl">Relatórios</div><div class="kv">${linhas.length}</div></div>`;
+    const b = $('nv-bdg');
+    if(dev){ b.style.display=''; b.textContent=dev; } else b.style.display='none';
+
+    const fst = $('m-st').value, fdt = $('m-data').value;
+    const lista = linhas.filter(l=>{
+      if(fst && l.sit!==fst) return false;
+      if(fdt && l.r.data!==fdt) return false;
+      return true;
+    });
+
+    if(!lista.length){ $('m-lista').innerHTML = `<div class="empty"><i class="ti ti-clipboard-off"></i>
+      Nenhum relatório com esses filtros.</div>`; return; }
+
+    $('m-lista').innerHTML = lista.map(l=>{
+      const r = l.r;
+      const motivos = [...new Set(l.devolvidos.map(f=>f.motivoDevolucao).filter(Boolean))];
+      const podeEditar = l.sit !== 'Validado';
+      return `<div class="item ${l.sit==='Devolvido'?'dev':''}">
+        <div class="ih"><b>Relatório ${esc(relCod(r))}</b>
+          <span class="st ${REL_CLS[l.sit]}">${l.sit}</span>
+          <span style="font-size:12px;color:var(--text2)">${fmtData(r.data)}</span></div>
+        ${motivos.length?`<div class="al ae show" style="margin:10px 12px 0"><i class="ti ti-arrow-back-up"></i>
+          <span><b>Devolvido:</b> ${esc(motivos.join(' · '))}</span></div>`:''}
+        ${r.corrigido?`<div class="al aw show" style="margin:10px 12px 0"><i class="ti ti-pencil"></i>
+          <span>Correção enviada por <b>${esc(r.corrigidoPor||'')}</b> em
+          ${r.corrigidoEm?new Date(r.corrigidoEm).toLocaleString('pt-BR'):''}${r.conferido?' — já conferida pelo escritório':' — aguardando conferência'}</span></div>`:''}
+        <div class="th">${[0,1].map(i=>l.capas[i]?`<img src="${l.capas[i]}">`:`<div class="vz">sem foto</div>`).join('')}</div>
+        <div class="ib">
+          <div class="ln"><span>Equipe</span><b>${esc(r.equipe||'—')}</b></div>
+          <div class="ln"><span>Buracos / fotos</span><b>${l.fs.length}</b> buraco(s) · <b>${l.nFotos}</b> foto(s)</div>
+          <div class="ln"><span>Rua</span>${esc(r.rua || (l.fs[0]&&l.fs[0].rua) || '—')}</div>
+          <div class="ln"><span>Serviço</span>${esc(r.servico || (l.fs[0]&&l.fs[0].servico) || '—')}</div>
+          <div class="ln"><span>Documento</span>${r.status==='Concluído'?'concluído e enviado':'em andamento'}</div>
+          ${podeEditar?`
+            <button class="btn sm" style="width:100%;margin-top:9px" onclick="abrirRelatorio('${r.uid}')">
+              <i class="ti ti-edit"></i>Abrir e editar este relatório</button>
+            <button class="btn sm o" style="width:100%;margin-top:7px" onclick="enviarCorrecao('${r.uid}')">
+              <i class="ti ti-send"></i>Enviar correção ao escritório</button>`
+          :`<div class="ln" style="margin-top:8px;color:var(--green)"><span>Situação</span>validado pelo escritório</div>`}
+          <button class="btn sm" style="width:100%;margin-top:7px" onclick="baixarRelatorio('${r.uid}')">
+            <i class="ti ti-file-type-pdf"></i>Gerar o PDF deste relatório</button>
+          <button class="btn sm d" style="width:100%;margin-top:7px" onclick="excluirRelatorio('${r.uid}')">
+            <i class="ti ti-trash"></i>Excluir este relatório</button>
+        </div></div>`;
+    }).join('');
+  }catch(err){
+    console.error(err);
+    $('m-lista').innerHTML = `<div class="al ae show"><i class="ti ti-alert-circle"></i><span>Erro ao listar: ${esc(err.message||err)}</span></div>`;
+  }
+}
+
+/* abre o relatório na aba Sequência, já com data e equipe certas */
+async function abrirRelatorio(uid){
+  const rels = await dbGetAll('relatorios');
+  const r = rels.find(x=>x.uid===uid); if(!r) return;
+  ir('seq');
+  setTimeout(async()=>{
+    $('s-data').value = r.data || hoje();
+    if(r.equipe && [...$('s-eq').options].some(o=>o.value===r.equipe)) $('s-eq').value = r.equipe;
+    if(r.rua) $('s-rua').value = r.rua;
+    if(r.servico && [...$('s-srv').options].some(o=>o.value===r.servico)) $('s-srv').value = r.servico;
+    REL_ATUAL = r;
+    await seqRender();
+    window.scrollTo({top:0, behavior:'smooth'});
+    alerta('s-ok','Relatório <b>'+esc(relCod(r))+'</b> aberto para edição. Ao terminar, use <b>Enviar correção</b> em Meus, ou conclua outra vez.');
+  }, 250);
+}
+
+/* manda a correção: os furos voltam a Pendente e o escritório recebe o aviso */
+async function enviarCorrecao(uid){
+  const rels = await dbGetAll('relatorios');
+  const r = rels.find(x=>x.uid===uid); if(!r) return;
+  confirmarSheet('Enviar correção',
+    `O relatório <b>${esc(relCod(r))}</b> volta para conferência do escritório, com o aviso de que
+     foi corrigido por você em campo. Confirmar?`, async ()=>{
+    const agora = new Date().toISOString();
+    const furos = await relFuros(uid);
+    for(const f of furos){
+      if(f.status !== 'Pendente' || f.motivoDevolucao){
+        await dbPut('furos', {...f, status:'Pendente', motivoDevolucao:'', corrigidoEmCampo:true,
+                              corrigidoPor:ID.nome, corrigidoEm:agora});
+      }
+    }
+    await dbPut('historico', {
+      relatorioUid:uid, data:r.data, equipe:r.equipe||'', acao:'Corrigido pelo fiscal',
+      motivo:`Relatório ${relCod(r)} corrigido em campo por ${ID.nome}`,
+      por:ID.nome, login:ID.login, dispositivo:ID.dispositivo, em:agora
+    });
+    await relGravar(uid, {corrigido:true, corrigidoPor:ID.nome, corrigidoEm:agora, conferido:false,
+                          status:'Concluído', furos:furos.length});
+    await seqEnviarFotos(true);
+    await sincronizar(true);
+    await renderMeus();
+    alerta('m-ok','Correção enviada. O escritório recebe o aviso de que este relatório foi <b>corrigido pelo fiscal</b>.',0);
+  });
+}
+
+/* PDF de um relatório escolhido na lista */
+async function baixarRelatorio(uid){
+  const rels = await dbGetAll('relatorios');
+  const r = rels.find(x=>x.uid===uid); if(!r) return;
+  const antes = REL_ATUAL;
+  ir('seq');
+  setTimeout(async()=>{
+    $('s-data').value = r.data;
+    if(r.equipe && [...$('s-eq').options].some(o=>o.value===r.equipe)) $('s-eq').value = r.equipe;
+    REL_ATUAL = r;
+    await seqRender();
+    await seqGerarPDF(true);
+  }, 250);
+}
+
+/* --------------------------------- INIT --------------------------------- */
+(async function(){
+  try{
+    await initDB();
+    carregarCfg();
+    pintarQuem(); pintarChip();
+    $('s-data').value=hoje();
+    /* Puxa os usuários antes do login: senha trocada no escritório já vale aqui. */
+    if(conectado() && navigator.onLine){ try{ await baixar(); }catch(e){ console.warn('sem nuvem no login',e); } }
+    await seedUsuarioDemo();
+    await restaurarSessao();
+    await relMigrar();
+    await preencherListas();
+    /* O GPS e a bússola começam a trabalhar assim que o app abre, e não só
+       quando alguém entra na tela de fotos. Achar o primeiro ponto pode levar
+       meio minuto a céu aberto; deixando ligado desde o começo, a foto já
+       encontra a posição pronta. */
+    lerPermissaoGPS().then(()=>{ pintarGPS(); ativarGPS(false); });
+    /* Voltando da câmera (ou do bolso) o rastreio costuma ficar dormindo:
+       aqui ele é reacordado. */
+    document.addEventListener('visibilitychange', ()=>{
+      if(!document.hidden) ativarGPS(false);
+    });
+    /* pelo navegador o próprio app se compara com a versão publicada; no
+       aplicativo instalado quem faz isso é a casca, logo ao abrir */
+    if(!noAplicativo() && navigator.onLine) setTimeout(()=>{
+      fetch(CANAL_APP+'versao.json?t='+Date.now(), {cache:'no-store'})
+        .then(r=>r.ok?r.json():null)
+        .then(j=>{ if(j && j.appVersion && j.appVersion !== APP_VERSION){
+          ATUALIZACAO = {estado:'pronta', versao:j.appVersion}; pintarFaixaAtualizacao(); } })
+        .catch(()=>{});
+    }, 4000);
+    if(pronto()){
+      pintarQuem(); ir('inicio');
+      if(navigator.onLine) sincronizar(true);
+      setInterval(()=>{ if(!document.hidden && navigator.onLine) sincronizar(true); }, 120000);
+    } else {
+      mostrarLogin(); TELA='login';
+    }
+    window.addEventListener('online', ()=>{ pintarChip(); sincronizar(true); });
+    window.addEventListener('offline', pintarChip);
+  }catch(err){
+    document.querySelector('.wrap').insertAdjacentHTML('afterbegin',
+      `<div class="al ae show"><i class="ti ti-alert-circle"></i><span>Não foi possível iniciar o aplicativo
+       (${esc(err.message||err)}). Feche e abra novamente.</span></div>`);
+  }
+})();
+</script>
+</body>
+</html>
