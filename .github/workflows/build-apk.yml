@@ -53,6 +53,12 @@ jobs:
       - name: Sincronizar com o Capacitor
         run: npx cap sync android
 
+      - name: Garantir que o gradlew pode ser executado
+        # O projeto passa pelo Windows antes de chegar aqui, e o Windows não
+        # guarda a permissão de execução do Linux -- sem isso, ./gradlew falha
+        # com "Permission denied" antes mesmo de começar a compilar.
+        run: chmod +x android/gradlew
+
       - name: Calcular o código de versão do APK
         id: codigo
         run: |
